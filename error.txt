@@ -1,0 +1,34 @@
+npm ERR! code ERESOLVE
+npm ERR! ERESOLVE unable to resolve dependency tree
+npm ERR!
+npm ERR! While resolving: stremit-vue@3.0.0
+npm ERR! Found: webpack@5.73.0
+npm ERR! node_modules/webpack
+npm ERR!   webpack@"^5.73.0" from the root project
+npm ERR!
+npm ERR! Could not resolve dependency:
+npm ERR! peer webpack@"^4.0.0" from cache-loader@4.1.0
+npm ERR! node_modules/cache-loader
+npm ERR!   cache-loader@"^4.1.0" from the root project
+npm ERR!
+npm ERR! Fix the upstream dependency conflict, or retry
+npm ERR! this command with --force, or --legacy-peer-deps
+npm ERR! to accept an incorrect (and potentially broken) dependency resolution.
+npm ERR!
+npm ERR! See /Users/cwf/.npm/eresolve-report.txt for a full report.
+
+npm ERR! A complete log of this run can be found in:
+npm ERR!     /Users/cwf/.npm/_logs/2022-07-07T18_40_46_581Z-debug-0.log
+cwf@axlbook ~/h/m/s/code-vue [1]> npm install --legacy-peer-deps
+
+
+cwf@axlbook ~/h/m/s/code-vue> rg -o 'import ignore' .                                                                                                                                             13:53:19
+./node_modules/ignore/README.md
+76:import ignore
+
+./node_modules/@eslint/eslintrc/dist/eslintrc.cjs.map
+1:import ignore
+
+./node_modules/@eslint/eslintrc/lib/config-array/ignore-pattern.js
+37:import ignore
+cwf@axlbook ~/h/m/s/code-vue>
