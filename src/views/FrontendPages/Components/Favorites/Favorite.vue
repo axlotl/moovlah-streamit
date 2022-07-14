@@ -70,7 +70,7 @@ export default {
       favoriteData: [
         { image: require('../../../../assets/images/frontend/favorite/01.jpg'), title: 'Sand Dust', age: '13+', time: '2h 30m' },
         { image: require('../../../../assets/images/frontend/favorite/02.jpg'), title: 'Last Race', age: '7+', time: '2 Seasons' },
-        { image: require('../../../../assets/images/frontend/favorite/03.jpg'), title: 'Boop Bitty', age: '15+', time: '2h 30m' },
+        { image: require('../../../../assets/images/frontend/favorite/03.jpg'), title: 'Boop Bitty Boop', age: '15+', time: '2h 30m' },
         { image: require('../../../../assets/images/frontend/favorite/04.png'), title: 'Dino Land', age: '18+', time: '3 Seasons' },
         { image: require('../../../../assets/images/frontend/favorite/05.jpg'), title: 'Jaction action', age: '10+', time: ' Seasons' }
       ],

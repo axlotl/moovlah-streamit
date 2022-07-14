@@ -456,9 +456,9 @@ span.flatpickr-weekday {
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-align: start;
+  -webkit-box-align: flex-start;
   -webkit-align-items: flex-start;
-      -ms-flex-align: start;
+      -ms-flex-align: flex-start;
           align-items: flex-start;
   width: 307.875px;
 }

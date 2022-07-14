@@ -1305,7 +1305,7 @@ form {display: block; margin-top: 0em;}
 .comment-respond .comment-form-comment { margin: 30px 0; margin-bottom: 30px; display: inline-block; width: 100%;}
 .comment-form-author, .comment-form-email, .comment-form-url { margin-bottom: 30px; display: block;width: 100%;}
 .comment-respond textarea, .comment-respond input {float: inherit;}
-p.comment-form-cookies-consent {display: flex;width: 100%; align-items: start; margin: 0px 0 30px 0;}
+p.comment-form-cookies-consent {display: flex;width: 100%; align-items: flex-start; margin: 0px 0 30px 0;}
 input[type=checkbox] { width: auto;margin-right: 10px; height: 25px; display: inline-block;}
 label { color: var(--iq-secondary); margin-bottom: 0;}
 .comment-respond .form-submit {display: inline-block; margin-bottom: 0;}
