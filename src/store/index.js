@@ -4,6 +4,12 @@ import Setting from './Setting/index'
 import Category from './Category/index'
 import Movie from './Movie/index'
 import Show from './Show/index'
+
+
+import content from './modules/content-module';
+import profile from './modules/profile-module';
+import suggestion from './modules/suggestion-module';
+
 Vue.use(Vuex)
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -13,8 +19,13 @@ export default new Vuex.Store({
     Setting,
     Category,
     Movie,
-    Show
+    Show,
+
+    content,
+    profile,
+    suggestion
   },
+  
   state: {
   },
   mutations: {
@@ -24,4 +35,5 @@ export default new Vuex.Store({
   getters: {
   },
   strict: debug
+  
 })

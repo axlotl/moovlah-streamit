@@ -15,12 +15,13 @@
             <a href="#" class="search-toggle device-search">
               <i class="ri-search-line"></i>
             </a>
-            <div class="search-box iq-search-bar d-search">
+            <div class="search-box iq-search-bar d-search test">
               <form action="#" class="searchbox">
                 <input
                   type="text"
                   class="text search-input font-size-12"
                   placeholder="Type here to search..."
+                  
                 />
                 <i class="search-link ri-search-line"></i>
               </form>
@@ -229,7 +230,7 @@ export default {
     Breadcrumb
   },
   mounted () {
-    core.index()
+    core.index();
   },
   data () {
     return {

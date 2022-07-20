@@ -7,7 +7,7 @@
                <h4 class="main-title">
                <router-link :to="{ name: 'landing-page.show-category' }" >More Like This</router-link>
                </h4>
-                <div class="d-flex slick-aerrow-block">
+                <div class="d-flex slick-arrow-block">
                     <button
                       class="slick-prev slick-arrow"
                       aria-label="Previous"

@@ -5,17 +5,17 @@
          <b-col sm="12" class="overflow-hidden">
             <div class="iq-main-header d-flex align-items-center justify-content-between">
                <h4 class="main-title">
-                 Latest Movies
+                 Latest Movies (favorites)
                </h4>
                <router-link :to="{ name: 'landing-page.movie-category' }" class="iq-view-all">View All</router-link>
             </div>
             <div class="upcoming-contens">
-               <Slick class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
-                  <li class="slide-item" v-for="(item,index) in favoriteData" :key="index">
+               <Slick v-if="table && table.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
+                  <li class="slide-item" v-for="(item,index) in table" :key="index">
 
                         <div class="block-images position-relative">
                            <div class="img-box">
-                              <img :src="item.image" class="img-fluid" alt="">
+                              <img :src="item.poster" class="img-fluid" alt="">
                            </div>
                            <div class="block-description">
                               <h6 class="iq-title"> <router-link :to="{ name: 'landing-page.movie-detail' }">{{item.title}}</router-link></h6>
@@ -59,66 +59,134 @@
 </template>
 <script>
 
+import _ from 'lodash';
+
+
 export default {
-  name: 'Upcomming',
-  components: {
-  },
-  mounted () {
-  },
-  data () {
-    return {
-      favoriteData: [
-        { image: require('../../../../assets/images/frontend/favorite/01.jpg'), title: 'Sand Dust', age: '13+', time: '2h 30m' },
-        { image: require('../../../../assets/images/frontend/favorite/02.jpg'), title: 'Last Race', age: '7+', time: '2 Seasons' },
-        { image: require('../../../../assets/images/frontend/favorite/03.jpg'), title: 'Boop Bitty Boop', age: '15+', time: '2h 30m' },
-        { image: require('../../../../assets/images/frontend/favorite/04.png'), title: 'Dino Land', age: '18+', time: '3 Seasons' },
-        { image: require('../../../../assets/images/frontend/favorite/05.jpg'), title: 'Jaction action', age: '10+', time: ' Seasons' }
-      ],
-      favOption: {
-        dots: false,
-        arrows: true,
-        infinite: true,
-        speed: 300,
-        autoplay: false,
-        prevArrow: '<div class="slick-prev slick-arrow"><i class="fa fa-chevron-left"></i></div>',
-        nextArrow: '<div class="slick-next slick-arrow"><i class="fa fa-chevron-right"></i></div>',
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 1,
-              infinite: true,
-              dots: true
-            }
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
-          }
-        ]
-      }
-    }
-  },
-  methods: {
-    next () {
-      this.$refs.dSlick.next()
-    },
-    prev () {
-      this.$refs.dSlick.prev()
-    }
-  }
+	name: 'Favorites',
+	components: {
+	
+	},
+	
+	
+	data: () => ({
+		
+		table: [],
+		query: null,
+		sort: "created_at",
+		permissions: [],
+		favOption: {
+			dots: false,
+			arrows: true,
+			infinite: true,
+			speed: 300,
+			autoplay: false,
+			prevArrow: '<div class="slick-prev slick-arrow"><i class="fa fa-chevron-left"></i></div>',
+			nextArrow: '<div class="slick-next slick-arrow"><i class="fa fa-chevron-right"></i></div>',
+			slidesToShow: 4,
+			slidesToScroll: 1,
+			responsive: [
+				{
+					breakpoint: 1200,
+					settings: {
+						slidesToShow: 3,
+						slidesToScroll: 1,
+						infinite: true,
+						dots: true
+					}
+				},
+				{
+					breakpoint: 768,
+					settings: {
+						slidesToShow: 2,
+						slidesToScroll: 1
+					}
+				},
+				{
+					breakpoint: 480,
+					settings: {
+						slidesToShow: 1,
+						slidesToScroll: 1
+					}
+				}
+			]
+		}
+	}),
+	mounted () {
+		console.log('favorites mounted');
+		
+		
+	},
+	watch: {
+		query: {
+			handler: "getListDebounced",
+			immediate: true
+		}
+	},
+	created() {
+		console.log('created');
+		this.permissions =  this.$store.getters["profile/permissions"];
+
+		console.log(this.permissions);
+
+		this.$store.watch(
+			
+			() => this.$store.getters["profile/permissions"],
+			(permissions) => {
+			this.permissions = permissions;
+			console.log('permissions');
+			
+		});
+
+		this.getListDebounced()
+		
+	},
+	methods: {
+
+		getListDebounced: _.debounce( function(){
+			console.log('getListDebounced');
+			this.getList();
+		}, 300),
+
+		async getList(){
+			console.log('getList')
+			let params = {
+				include: "media, ingest_source, content_provider",
+				...(this.sort ? { sort: this.sort }: {}),
+
+				filter: (this.query ? { title: this.query } : {}),
+
+				page: {
+
+				}
+			}
+			
+			try {
+				await this.$store.dispatch("content/list", params);
+				const table = this.$store.getters["content/list"];
+				
+				
+				//this has hundreds of items.
+				table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
+
+				console.log('favorites table:', this.table);
+
+			} catch(e){
+				console.log('error');
+				console.log(e);
+			}
+		},
+		
+		next () {
+		this.$refs.dSlick.next()
+		},
+		prev () {
+			this.$refs.dSlick.prev()
+		},
+		async list() {
+
+		}
+		
+	}	
 }
 </script>

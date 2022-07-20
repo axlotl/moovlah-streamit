@@ -1,17 +1,17 @@
 <template>
- <section id="iq-suggestede" class="s-margin">
+ <section id="iq-suggested" class="s-margin">
    <b-container fluid>
       <b-row>
          <b-col sm="12" class="overflow-hidden">
             <div class="iq-main-header d-flex align-items-center justify-content-between">
                <h4 class="main-title" v-b-tooltip.hover title="">
-                 Suggested For You
+                 Suggested For You!
                </h4>
                <router-link :to="{ name: 'landing-page.show-category' }" class="iq-view-all">View All</router-link>
             </div>
-            <div class="suggestede-contens">
-               <Slick class="list-inline favorites-slider row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="suggestionSliderOption">
-                  <li class="slide-item" v-for="(item,index) in suggestionData" :key="index">
+            <div class="suggested-contents">
+               <Slick v-if="table && table.length > 0" class="list-inline favorites-slider row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="suggestionSliderOption">
+                  <li class="slide-item" v-for="(item,index) in table" :key="index">
                         <div class="block-images position-relative">
                            <div class="img-box">
                               <img :src="item.image" class="img-fluid" alt="">
@@ -61,63 +61,127 @@
 export default {
   name: 'Suggestion',
   components: {
-  },
-  mounted () {
-  },
-  data () {
-    return {
-      suggestionData: [
-        { image: require('../../../../assets/images/frontend/suggested/01.jpg'), title: 'Inside the Sea', age: '11+', time: '2h 30m' },
-        { image: require('../../../../assets/images/frontend/suggested/02.jpg'), title: 'Jumbo Queen', age: '9+', time: '2 Seasons' },
-        { image: require('../../../../assets/images/frontend/suggested/03.jpg'), title: 'Unknown Land', age: '17+', time: '2h 30m' },
-        { image: require('../../../../assets/images/frontend/suggested/04.jpg'), title: 'Friends', age: '14+', time: '2h 30m' },
-        { image: require('../../../../assets/images/frontend/suggested/05.jpg'), title: 'Blood Block', age: '13+', time: '2h 40m' }
-      ],
-      suggestionSliderOption: {
-        dots: false,
-        arrows: true,
-        infinite: true,
-        speed: 300,
-        autoplay: false,
-        slidesToShow: 4,
-        slidesToScroll: 1,
-        prevArrow: '<div class="slick-prev slick-arrow"><i class="fa fa-chevron-left"></i></div>',
-        nextArrow: '<div class="slick-next slick-arrow"><i class="fa fa-chevron-right"></i></div>',
-        responsive: [
-          {
-            breakpoint: 1200,
-            settings: {
-              slidesToShow: 3,
-              slidesToScroll: 1,
-              infinite: true,
-              dots: true
-            }
-          },
-          {
-            breakpoint: 768,
-            settings: {
-              slidesToShow: 2,
-              slidesToScroll: 1
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              slidesToShow: 1,
-              slidesToScroll: 1
-            }
+	
+	
+	},
+	
+	
+	data: () => ({
+		
+		table: [],
+		query: null,
+		sort: "created_at",
+		permissions: [],
+    suggestionSliderOption: {
+      dots: false,
+      arrows: true,
+      infinite: true,
+      speed: 300,
+      autoplay: false,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      prevArrow: '<div class="slick-prev slick-arrow"><i class="fa fa-chevron-left"></i></div>',
+      nextArrow: '<div class="slick-next slick-arrow"><i class="fa fa-chevron-right"></i></div>',
+      responsive: [
+        {
+          breakpoint: 1200,
+          settings: {
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            infinite: true,
+            dots: true
           }
-        ]
-      }
-    }
-  },
-  methods: {
-    next () {
-      this.$refs.dSlick.next()
-    },
-    prev () {
-      this.$refs.dSlick.prev()
-    }
-  }
+        },
+        {
+          breakpoint: 768,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        }
+			]
+		}
+	}),
+	mounted () {
+		console.log('suggestions mounted');
+		
+		
+	},
+	watch: {
+		query: {
+			handler: "getListDebounced",
+			immediate: true
+		}
+	},
+	created() {
+		console.log('suggestions created');
+		this.permissions =  this.$store.getters["profile/permissions"];
+
+		console.log(this.permissions);
+
+		this.$store.watch(
+			
+			() => this.$store.getters["profile/permissions"],
+			(permissions) => {
+			this.permissions = permissions;
+			console.log('permissions');
+			
+		});
+
+		this.getListDebounced()
+		
+	},
+	methods: {
+
+		getListDebounced: _.debounce( function(){
+			console.log('getListDebounced');
+			this.getList();
+		}, 300),
+
+		async getList(){
+			console.log('getList')
+			let params = {
+				include: "media, ingest_source, content_provider",
+				...(this.sort ? { sort: this.sort }: {}),
+
+				filter: (this.query ? { title: this.query } : {}),
+
+				page: {
+
+				}
+			}
+			
+			try {
+				await this.$store.dispatch("suggestion/list", params);
+				const table = this.$store.getters["suggestion/list"];
+				
+				table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
+
+				console.log('suggestion table:', this.table);
+
+			} catch(e){
+				console.log('error');
+				console.log(e);
+			}
+		},
+		
+		next () {
+		this.$refs.dSlick.next()
+		},
+		prev () {
+			this.$refs.dSlick.prev()
+		},
+		async list() {
+
+		}
+		
+	}	
 }
 </script>
