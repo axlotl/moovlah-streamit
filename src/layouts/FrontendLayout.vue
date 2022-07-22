@@ -217,7 +217,7 @@ import BannerVideo from '../views/FrontendPages/MovieDetailPage/BannerVideo'
 import Banner from '../views/FrontendPages/ShowSinglePage/Banner'
 import Breadcrumb from '../views/FrontendPages/Components/Breadcrumb/Breadcrumb'
 export default {
-  name: 'BackendLayout',
+  name: 'FrontendLayout',
   components: {
     Footer,
     Loader,

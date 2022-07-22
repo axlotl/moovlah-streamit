@@ -121,10 +121,8 @@ export default {
 		}
 	},
 	created() {
-		console.log('suggestions created');
+		
 		this.permissions =  this.$store.getters["profile/permissions"];
-
-		console.log(this.permissions);
 
 		this.$store.watch(
 			

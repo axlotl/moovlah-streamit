@@ -548,7 +548,9 @@ const landingPageRoutes = (prop) => [
     path: '/movie-detail',
     name: prop + '.movie-detail',
     meta: { auth: true, name: 'Movie Detail' },
-    component: MovieDetail
+    component: MovieDetail,
+    props: true
+    
   },
   {
     path: '/show-single',
