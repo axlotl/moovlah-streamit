@@ -117,8 +117,7 @@ export default {
 		async getList(){
 			console.log('getList')
 			let params = {
-				include: "media, ingest_source, content_provider",
-				...(this.sort ? { sort: this.sort }: {}),
+				include: (this.sort ? { sort: this.sort }: {}),
 
 				filter: (this.query ? { title: this.query } : {}),
 
@@ -135,7 +134,8 @@ export default {
 
 				//this has hundreds of items.
 				table.placement.playlist.slice(0, 20).forEach( (object) => {
-					object.playlistID = this.playlistID
+					object.playlistID = this.playlistID;
+					object.baseURL = process.env.VUE_APP_API_BASE_URL;
 					this.table.push( object );
 				}); 
 					

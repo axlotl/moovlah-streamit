@@ -9,11 +9,22 @@
 				<router-link :to="{ 
 					name: 'landing-page.movie-detail', 
 					
-					query: { 
+					params: { 
 						itemID: item.id,
-						playlistID: item.playlistID
+						playlistID: item.playlistID,
+						baseURL: item.baseURL
+
+						/*
+
+							phoebe should you send a hair pic today
+
+
+						*/
 					}
 				 }">{{ item.title }}</router-link>
+				 <ul>
+					<!-- <li  v-for="(item,index) in item" :key="index">{{index}} :: {{item}}</li> -->
+				 </ul>
 			</h6>
 			<div class="movie-time d-flex align-items-center my-2 iq-ltr-direction">
 				<div class="badge badge-secondary p-1 mr-2">{{ item.age }}</div>
@@ -23,9 +34,10 @@
 				<router-link :to="{ 
 						name: 'landing-page.movie-detail', 
 					
-						query: { 
+						params: { 
 							itemID: item.id,
-							playlistID: item.playlistID
+							playlistID: item.playlistID,
+							baseURL: item.baseURL
 						} 
 					}" role="button" class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
 					Play Now
@@ -54,16 +66,26 @@
 	</div>
 </template>
 <!-- END COMPONENT -->
+
 <script>
+
 	export default {
 		name: 'VideoSwiper',
 		
+		// props: ['item'],
 		props: ['item'],
 		
+		computed: {
+			boxFormatted() {
+				return this.boxID.replace(/\s+/g, '-')
+			}
+		},
 		data: () => ({
 		
 		}),
-
+		created() {
+			// console.log('item in VideoSwiper', item)
+		},
 		mounted() {
 			
 		}

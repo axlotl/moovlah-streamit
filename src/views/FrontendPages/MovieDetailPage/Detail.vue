@@ -45,6 +45,9 @@
 <script>
 export default {
   name: 'Detail',
+  props: {
+
+  },
   components: {
   },
   mounted () {

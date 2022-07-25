@@ -1,13 +1,12 @@
-import qs from "qs";
-import axios from "axios";
-import Jsona from "jsona";
+import axios from 'axios';
+import qs from 'qs';
 
-for (const [key, val] of Object.entries(process.env)) {
-	console.log("key: " + key + " val: " + val);
-}
+// for (const [key, val] of Object.entries(process.env)) {
+// 	console.log("key: " + key + " val: " + val);
+// }
 const url = `${process.env.VUE_APP_API_BASE_URL}/${process.env.VUE_APP_TEST_PLAYLIST3}/playlist`;
 console.log("URL! ", `${url}`);
-const jsona = new Jsona();
+
 
 function list(params) {
 	const options = {
@@ -18,8 +17,7 @@ function list(params) {
 	};
 
 	console.log("CONTENTS URL (PLAYLIST3): ", `${url}`);
-	// console.log("options:");
-	// console.log(options);
+	
 	return axios.get(`${url}`, options).then((response) => {
 		// console.log("content response:: ", response.data);
 		

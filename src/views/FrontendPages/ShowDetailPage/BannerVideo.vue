@@ -10,6 +10,9 @@ export default {
   name: 'BannerVideo',
   components: {
   },
+  created() {
+	
+  },
   mounted () {
   },
   data () {

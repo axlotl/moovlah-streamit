@@ -2,9 +2,7 @@ import qs from "qs";
 import axios from "axios";
 import Jsona from "jsona";
 
-for (const [key, val] of Object.entries(process.env)) {
-	console.log("key: " + key + " val: " + val);
-}
+
 const url = `${process.env.VUE_APP_API_BASE_URL}/${process.env.VUE_APP_TEST_PLAYLIST1}/playlist`;
 console.log("URL! ", `${url}`);
 const jsona = new Jsona();

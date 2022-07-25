@@ -1,6 +1,6 @@
 <template>
 <div>
-  <Details/>
+  <Details :movie="movie" />
   <MoreLike/>
   <Upcomming/>
 </div>
@@ -17,8 +17,15 @@ export default {
     Upcomming,
     MoreLike
   },
+  data() {
+	return {
+		movie: {}
+	}
+  },
   mounted () {
-    core.index()
+    console.info(`MoviePage`, this.$route);
+	//movie = store.get()
+	core.index()
   }
 }
 </script>

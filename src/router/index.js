@@ -544,14 +544,25 @@ const landingPageRoutes = (prop) => [
     meta: { auth: true, name: 'Movie Category', movieslider: 'true' },
     component: MovieCatgeory
   },
+  
   {
     path: '/movie-detail',
-    name: prop + '.movie-detail',
+    name: 'landing-page.movie-detail',
     meta: { auth: true, name: 'Movie Detail' },
     component: MovieDetail,
-    props: true
+	
     
   },
+  /*
+  {
+    path: '/movie-detail/:playlistID/:itemID',
+    name: 'landing-page.movie-detail-params',
+    meta: { auth: true, name: 'Movie Detail' },
+    component: MovieDetail,
+    
+    
+  },
+  */
   {
     path: '/show-single',
     name: prop + '.show-single',

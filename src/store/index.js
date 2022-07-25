@@ -9,6 +9,7 @@ import Show from './Show/index'
 import content from './modules/content-module';
 import profile from './modules/profile-module';
 import suggestion from './modules/suggestion-module';
+import video from './modules/video-module';
 
 Vue.use(Vuex)
 
@@ -23,7 +24,8 @@ export default new Vuex.Store({
 
     content,
     profile,
-    suggestion
+    suggestion,
+	video
   },
   
   state: {
