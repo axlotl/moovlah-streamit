@@ -18,8 +18,20 @@ function getVideoObj(params) {
 	
 }
 
-function mp4URL(params){
-	const videoAPI = `${params.baseURL}/${params.playlistID}/content/${params.videoID}`;
+function mp4URL(obj){
+	
+
+	//get the largest mp4 based on Object.entries names
+	let keyed = {};
+	let keyedArray = [];
+	for (const [k, v] of Object.entries(obj)){ 
+		let key = parseInt( k.substring(1));
+		keyed[key] = v;
+		console.log( k + ' :: ' + v);
+		keyedArray.push(key);
+	}
+	const max = Math.max(...keyedArray);
+	return keyed[max];
 
 }
 

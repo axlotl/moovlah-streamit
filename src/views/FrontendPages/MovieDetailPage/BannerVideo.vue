@@ -20,10 +20,28 @@ export default {
   mounted () {
 	console.log('BannerVideo videoObject', this.videoObj  );
 	
-	this.videoURL = this.videoObj.sources.mp4._676p;
-	console.log('videoURL:',this.videoURL)
+
+	this.getURL()
+	console.log('videoURL:' ,this.videoURL)
+
   },
   methods: {
+	
+	async getURL(){
+		console.log( 'getURL')
+		
+		// this.videoURL = this.videoObj.sources.mp4._676p
+		
+		try {
+			await this.$store.dispatch("video/mp4URL", this.videoObj.sources.mp4)
+			const mp4URL =  this.$store.getters["video/mp4URL"]
+			console.log( 'mp4URL: ', mp4URL)
+			this.videoURL = mp4URL;
+		
+		} catch( e ){
+			console.log( 'mp4URL error: ', e)
+		}
+	}
 	
   },
 
