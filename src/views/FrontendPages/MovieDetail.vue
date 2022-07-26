@@ -1,31 +1,103 @@
 <template>
 <div>
-  <Details :movie="movie" />
-  <MoreLike/>
-  <Upcomming/>
+	<BannerVideo
+	:videoObj="videoObj"
+		v-if="
+		this.$route.name == 'landing-page.movie-detail' ||
+		this.$route.name == 'landing-page.category-detail'
+		"
+	/>
+	<Details :videoObj="videoObj" />
+	<MoreLike/>
+	<Upcomming/>
 </div>
 </template>
 <script>
-import { core } from '../../config/pluginInit'
-import Details from './MovieDetailPage/Detail'
-import Upcomming from './MovieDetailPage/Upcomming'
-import MoreLike from './MovieDetailPage/MoreLike'
+import { core } from '@/config/pluginInit'
+import Details from '@/views/FrontendPages/MovieDetailPage/Detail'
+import Upcomming from '@/views/FrontendPages/MovieDetailPage/Upcomming'
+import MoreLike from '@/views/FrontendPages/MovieDetailPage/MoreLike'
+import BannerVideo from '@/views/FrontendPages/MovieDetailPage/BannerVideo'
+
+import _ from 'lodash'
 export default {
   name: 'MovieDetail',
   components: {
     Details,
     Upcomming,
-    MoreLike
+    MoreLike,
+	BannerVideo
   },
-  data() {
-	return {
-		movie: {}
+  props: ["videoObj"],
+  
+  mounted () {
+	console.log('Details', Details)
+	console.log('BannerVideo:',BannerVideo)
+	
+    console.info(`MoviePageMovieDetail.vue route`, this.$route);
+	// console.log( 'MoviePageMovieDetail.vue videoObj:', this.vidoObj)
+	core.index()
+  },
+  created() {
+	this.getVideoObjDebounced();
+	// this.setVideoObj();
+	
+  },
+
+  methods: {
+	// setVideoObj(){
+	// 	this.videoObj = videoObj;
+	// },
+	getVideoObjDebounced: _.debounce( function(){
+		console.log('getVideoObjDebounced');
+		this.getVideoObj();
+	}, 300),
+
+
+
+	async getVideoObj(){
+		console.log('getVideoObj')
+		let params = {
+		
+			baseURL: this.$route.query.baseURL,
+			playlistID: this.$route.query.playlistID,
+			videoID: this.$route.query.itemID
+	
+		};
+		// console.log('wtf?')
+		// console.log('store:')
+		// console.log(typeof(this.$store))
+		// for( const [k, v] of Object.entries($this.$store)){
+		// 	console.log( `${k}::${v}`);
+		// }
+		
+		console.log('...MovieDetail.vue params: ', params);
+		try {
+			console.log('inside try')
+			await this.$store.dispatch("video/getVideoObj", params)
+			const videoObj = this.$store.getters["video/getVideoObj"]
+		
+			
+
+			this.videoObj = videoObj; 
+			console.log( 'MovieDetail.vue video object: ', this.videoObj)
+			// const url = videoObj.sources.mp4._676p
+			// this.videoURL = url;
+			// this.videoTile = videoObj.title;
+			// this.videoDescription = videoObj.description;
+	  		// console.log('videoURL in MovieDetails.vue ');
+			// console.log( this.videoURL);
+			// console.log('videoObj in MovieDetails.vue:',this.videoObj);
+
+		} catch( e ){
+			console.log( 'video error:', e)
+		}
+		
+		
 	}
   },
-  mounted () {
-    console.info(`MoviePage`, this.$route);
-	//movie = store.get()
-	core.index()
-  }
+  data: () => ({
+    	
+	})
 }
 </script>

@@ -3,7 +3,7 @@
         <b-row>
             <b-col lg="12" class="col-lg-12">
                 <div class="trending-info g-border">
-                    <h1 class="trending-text big-title text-uppercase mt-0">The Illusion</h1>
+                    <h1 v-if="videoObj !== {}" class="trending-text big-title text-uppercase mt-0">{{ videoObj.title }}</h1>
                     <ul class="p-0 list-inline d-flex align-items-center movie-content">
                         <li class="text-white">Action</li>
                         <li class="text-white">Drama</li>
@@ -19,10 +19,7 @@
                             alt=""></a>
                         <span class="text-gold ml-3">#2 in Series Today</span>
                     </div>
-                    <p class="trending-dec w-100 mb-0">Lorem Ipsum is simply dummy text of the printing and typesetting
-                        industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an
-                        unknown printer took a galley of type and scrambled it to make a type specimen book. It has
-                        survived not only five centuries.</p>
+                    <p v-if="videoObj !== {}" class="trending-dec w-100 mb-0">{{videoObj.description}}</p>
                     <ul class="list-inline p-0 mt-4 share-icons music-play-lists">
                         <li><span><i class="ri-add-line"></i></span></li>
                         <li><span><i class="ri-heart-fill"></i></span></li>
@@ -45,16 +42,19 @@
 <script>
 export default {
   name: 'Detail',
-  props: {
+  
+  props: ["videoObj", "title", "description"],
 
-  },
   components: {
   },
   mounted () {
+
+	// console.log('videoObj in Detail.vue:' )
+	// console.log(  this.videoObj)
+	// this.description = this.videoObj.description;
+	// this.title = this.videoObj.title;
   },
-  data () {
-    return {
-    }
-  }
+  
+  
 }
 </script>

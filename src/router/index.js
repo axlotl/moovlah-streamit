@@ -550,7 +550,7 @@ const landingPageRoutes = (prop) => [
     name: 'landing-page.movie-detail',
     meta: { auth: true, name: 'Movie Detail' },
     component: MovieDetail,
-	
+	props: true
     
   },
   /*
