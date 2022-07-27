@@ -22,7 +22,7 @@ export default {
 	
 
 	this.getURL()
-	console.log('videoURL:' ,this.videoURL)
+	console.log('BannerVideo.vue videoURL:' ,this.videoURL)
 
   },
   methods: {

@@ -4,7 +4,7 @@ import qs from 'qs';
 // for (const [key, val] of Object.entries(process.env)) {
 // 	console.log("key: " + key + " val: " + val);
 // }
-const url = `${process.env.VUE_APP_API_BASE_URL}/${process.env.VUE_APP_TEST_PLAYLIST2}/playlist`;
+const url = `${process.env.VUE_APP_API_BASE_URL}/player/${process.env.VUE_APP_TEST_PLAYLIST2}/playlist`;
 console.log("URL! ", `${url}`);
 
 

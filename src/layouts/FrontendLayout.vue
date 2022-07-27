@@ -178,6 +178,13 @@
     <Home id="home" v-if="this.$route.meta.slider === 'true'" />
     <Slider v-if="this.$route.meta.category" />
     <MovieSlider v-if="this.$route.meta.movieslider" />
+	
+
+	<!-- will need to move this to category page-->
+	<BannerVideo
+	:videoObj="videoObj"
+		v-if="this.$route.name == 'landing-page.category-detail'"
+	/>
     
     <Banner v-if="this.$route.name == 'landing-page.show-single'" />
     <Breadcrumb v-if="this.$route.name == 'landing-page.about' || this.$route.name == 'landing-page.contact'||this.$route.name == 'landing-page.privacypolicy' || this.$route.name == 'landing-page.pricingplan1' ||this.$route.name == 'landing-page.pricingplan2' ||this.$route.name == 'landing-page.faq' ||this.$route.name == 'landing-page.blog' ||this.$route.name == 'landing-page.blogdetail' ||this.$route.name == 'landing-page.pricing-planning' " />
@@ -209,6 +216,8 @@ import Slider from '../views/FrontendPages/CategoryPage/Slider'
 import MovieSlider from '../views/FrontendPages/MovieCategoryPage/Slider'
 import NavHeader from '../components/core/navbars/FrontendNav'
 
+import BannerVideo from '@/views/FrontendPages/MovieDetailPage/BannerVideo'
+
 import Banner from '../views/FrontendPages/ShowSinglePage/Banner'
 import Breadcrumb from '../views/FrontendPages/Components/Breadcrumb/Breadcrumb'
 export default {
@@ -220,7 +229,7 @@ export default {
     NavHeader,
     Slider,
     MovieSlider,
-    
+    BannerVideo,
     Banner,
     Breadcrumb
   },

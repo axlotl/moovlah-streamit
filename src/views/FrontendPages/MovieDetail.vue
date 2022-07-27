@@ -1,12 +1,6 @@
 <template>
 <div>
-	<BannerVideo
-	:videoObj="videoObj"
-		v-if="
-		this.$route.name == 'landing-page.movie-detail' ||
-		this.$route.name == 'landing-page.category-detail'
-		"
-	/>
+	<BannerVideo :videoObj="videoObj" v-if="videoObj !== undefined"/>
 	<Details :videoObj="videoObj" />
 	<MoreLike/>
 	<Upcomming/>
@@ -31,11 +25,11 @@ export default {
   props: ["videoObj"],
   
   mounted () {
-	console.log('Details', Details)
-	console.log('BannerVideo:',BannerVideo)
+	// console.log('Details', Details)
+	// console.log('BannerVideo:',BannerVideo)
 	
-    console.info(`MoviePageMovieDetail.vue route`, this.$route);
-	// console.log( 'MoviePageMovieDetail.vue videoObj:', this.vidoObj)
+    // console.info(`MoviePageMovieDetail.vue route`, this.$route);
+	// console.log( 'MoviePageMovieDetail.vue videoOb:', this.vidoObj)
 	core.index()
   },
   created() {
@@ -64,14 +58,9 @@ export default {
 			videoID: this.$route.query.itemID
 	
 		};
-		// console.log('wtf?')
-		// console.log('store:')
-		// console.log(typeof(this.$store))
-		// for( const [k, v] of Object.entries($this.$store)){
-		// 	console.log( `${k}::${v}`);
-		// }
 		
-		console.log('...MovieDetail.vue params: ', params);
+		
+		console.log('...MovieDetail.vue params:::: ', params);
 		try {
 			console.log('inside try')
 			await this.$store.dispatch("video/getVideoObj", params)
