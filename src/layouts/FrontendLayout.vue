@@ -235,7 +235,7 @@ export default {
   },
   mounted () {
     core.index();
-	// console.log( 'FrontendLayout: ', this.movie)
+	console.log( 'FrontendLayout: ', this.$route)
   },
   data () {
     return {

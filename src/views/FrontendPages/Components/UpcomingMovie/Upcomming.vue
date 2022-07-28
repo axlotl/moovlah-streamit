@@ -59,7 +59,7 @@
 <script>
 
 export default {
-  name: 'Suggestion',
+  name: 'Upcoming',
   components: {
 	
 	
@@ -157,15 +157,15 @@ export default {
 
 				}
 			}
-			
+			console.log( 'Upcomming params', params);
 			try {
-				await this.$store.dispatch("suggestion/list", params);
-				const table = this.$store.getters["suggestion/list"];
+				// await this.$store.dispatch("suggestion/list", params);
+				// const table = this.$store.getters["suggestion/list"];
 				// console.log('getters: ',this.$store.getters);
 				
 
             //this has hundreds of items.
-				table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
+				// table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
 
 				console.log('upcoming table:', this.table);
 

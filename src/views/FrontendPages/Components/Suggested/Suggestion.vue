@@ -157,12 +157,13 @@ export default {
 			}
 			
 			try {
-				await this.$store.dispatch("suggestion/list", params);
-				const table = this.$store.getters["suggestion/list"];
+				// console.log( 'Suggestion params', params);
+				// await this.$store.dispatch("suggestion/list", params);
+				// const table = this.$store.getters["suggestion/list"];
 				
-				table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
+				// table.placement.playlist.slice(0, 20).forEach( object => this.table.push( object ) );
 
-				console.log('suggestion table:', this.table);
+				// console.log('suggestion table:', this.table);
 
 			} catch(e){
 				console.log('error');

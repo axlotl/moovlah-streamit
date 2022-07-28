@@ -1,11 +1,11 @@
 import qs from "qs";
 import axios from "axios";
-import Jsona from "jsona";
+
 
 
 const url = `${process.env.VUE_APP_API_BASE_URL}/player/${process.env.VUE_APP_TEST_PLAYLIST1}/playlist`;
-console.log("URL! ", `${url}`);
-const jsona = new Jsona();
+console.log("suggestion URL! ", `${url}`);
+
 
 function list(params) {
 	const options = {
@@ -15,11 +15,11 @@ function list(params) {
 		},
 	};
 
-	console.log("SUGGESTION URL (PLAYLIST1): ", `${url}`);
-	// console.log("options:");
-	// console.log(options);
+	console.log("SUGGESTION URL: ", `${url}`);
+	console.log("options:");
+	console.log(options);
 	return axios.get(`${url}`, options).then((response) => {
-		// console.log("suggestion response:: ", response.data);
+		console.log("suggestion response:: ", response.data);
 		
 		return response.data;
 	});

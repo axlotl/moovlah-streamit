@@ -3,13 +3,13 @@
 	<BannerVideo :videoObj="videoObj" v-if="videoObj !== undefined"/>
 	<Details :videoObj="videoObj" />
 	<MoreLike/>
-	<Upcomming/>
+	<!-- <Upcomming/> -->
 </div>
 </template>
 <script>
 import { core } from '@/config/pluginInit'
 import Details from '@/views/FrontendPages/MovieDetailPage/Detail'
-import Upcomming from '@/views/FrontendPages/MovieDetailPage/Upcomming'
+// import Upcomming from '@/views/FrontendPages/MovieDetailPage/Upcomming'
 import MoreLike from '@/views/FrontendPages/MovieDetailPage/MoreLike'
 import BannerVideo from '@/views/FrontendPages/MovieDetailPage/BannerVideo'
 
@@ -18,7 +18,7 @@ export default {
   name: 'MovieDetail',
   components: {
     Details,
-    Upcomming,
+    // Upcomming,
     MoreLike,
 	BannerVideo
   },
@@ -34,14 +34,11 @@ export default {
   },
   created() {
 	this.getVideoObjDebounced();
-	// this.setVideoObj();
 	
   },
 
   methods: {
-	// setVideoObj(){
-	// 	this.videoObj = videoObj;
-	// },
+	
 	getVideoObjDebounced: _.debounce( function(){
 		console.log('getVideoObjDebounced');
 		this.getVideoObj();

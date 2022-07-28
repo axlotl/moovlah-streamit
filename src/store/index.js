@@ -10,6 +10,7 @@ import content from './modules/content-module';
 import profile from './modules/profile-module';
 import suggestion from './modules/suggestion-module';
 import video from './modules/video-module';
+import playlists from './modules/playlists-module';
 
 Vue.use(Vuex)
 
@@ -25,7 +26,8 @@ export default new Vuex.Store({
     content,
     profile,
     suggestion,
-	video
+	video,
+	playlists
   },
   
   state: {

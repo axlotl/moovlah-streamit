@@ -1,14 +1,13 @@
 import axios from 'axios';
 import qs from 'qs';
 
-// for (const [key, val] of Object.entries(process.env)) {
-// 	console.log("key: " + key + " val: " + val);
-// }
-const url = `${process.env.VUE_APP_API_BASE_URL}/player/${process.env.VUE_APP_TEST_PLAYLIST2}/playlist`;
-console.log("URL! ", `${url}`);
+
 
 
 function list(params) {
+	// const url = `${process.env.VUE_APP_API_BASE_URL}/player/${params.uuid}/playlist`;
+	const url = `${process.env.VUE_APP_API_BASE_URL}/player/85bca5b2-f637-430f-be4a-74118e33c82b/playlist`;
+	console.log("content URL ", `${url}`);
 	const options = {
 		params: params,
 		paramsSerializer: function (params) {
@@ -16,7 +15,7 @@ function list(params) {
 		},
 	};
 
-	console.log("CONTENTS URL (PLAYLIST2): ", `${url}`);
+	console.log("CONTENTS URL: ", `${url}`);
 	
 	return axios.get(`${url}`, options).then((response) => {
 		// console.log("content response:: ", response.data);

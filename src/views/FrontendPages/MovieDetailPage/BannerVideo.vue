@@ -18,7 +18,7 @@ export default {
   components: {
   },
   mounted () {
-	console.log('BannerVideo videoObject', this.videoObj  );
+	// console.log('BannerVideo videoObject', this.videoObj  );
 	
 
 	this.getURL()
@@ -35,7 +35,7 @@ export default {
 		try {
 			await this.$store.dispatch("video/mp4URL", this.videoObj.sources.mp4)
 			const mp4URL =  this.$store.getters["video/mp4URL"]
-			console.log( 'mp4URL: ', mp4URL)
+			// console.log( 'mp4URL: ', mp4URL)
 			this.videoURL = mp4URL;
 		
 		} catch( e ){

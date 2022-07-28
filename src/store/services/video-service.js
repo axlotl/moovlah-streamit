@@ -7,7 +7,7 @@ function getVideoObj(params) {
 	// const videoUrl = `${process.env.VUE_APP_API_BASE_URL}/${this.$router.query.playlistID}/${this.$router.query.itemID}`;
 	const videoAPI = `${params.baseURL}/player/${params.playlistID}/content/${params.videoID}`;
 
-	console.log( 'api call: ', videoAPI)
+	console.log( 'getVideoObj api call: ', videoAPI)
 	return axios.get(videoAPI).then((response) => {
 		console.log( 'response: ', response)
 		// const url = response.data.placement.content.sources.mp4._676p;

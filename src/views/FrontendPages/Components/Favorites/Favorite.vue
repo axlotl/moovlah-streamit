@@ -32,6 +32,7 @@ export default {
 	components: {
 		VideoSwiper
 	},
+	props: ['uuid', 'playlist0'],
 	
 	
 	data: () => ({
@@ -123,7 +124,9 @@ export default {
 
 				page: {
 
-				}
+				},
+				// uuid: this.uuid 
+				uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
 			}
 			
 			try {
