@@ -11,9 +11,9 @@
             </div>
             <div class="upcoming-contents">
                <Slick v-if="table && table.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
-				<li class="slide-item" v-for="(item,index) in table" :key="index">
-				  	<VideoSwiper :item="item" />
-                  </li>
+					
+				  		<VideoSwiper v-if="table.length > 0" class="slide-item" v-for="(item,index) in table" :key="index" :item="item" />
+                  
                </Slick>
             </div>
          </b-col>
@@ -32,11 +32,11 @@ export default {
 	components: {
 		VideoSwiper
 	},
-	props: ['uuid', 'playlist0'],
+	props: ['item'],
 	
 	
 	data: () => ({
-		item: { 'title': 'here is a title'},
+		// item: { 'title': 'here is a title'},
 		table: [],
 		query: null,
 		sort: "created_at",
@@ -91,11 +91,15 @@ export default {
 		}
 	},
 	created() {
-		// console.log('created');
-		this.permissions =  this.$store.getters["profile/permissions"];
+		console.log('created');
+		// this.permissions =  this.$store.getters["profile/permissions"];
+		console.log( 'uuid:' , this.item.uuid)
+		console.log('Favorites.vue item: ', this.item)
 
 		
+		
 
+		/*
 		this.$store.watch(
 			
 			() => this.$store.getters["profile/permissions"],
@@ -104,51 +108,46 @@ export default {
 			console.log('permissions');
 			
 		});
-
-		this.getListDebounced()
+		*/
+		this.getList()
 		
 	},
 	methods: {
 
 		getListDebounced: _.debounce( function(){
-			console.log('getListDebounced');
+			console.log('getListDebounced this.item.uuid:: ', this.item.uuid);
 			this.getList();
 		}, 300),
 
 		async getList(){
-			console.log('getList')
+			console.log('getList', this.item.uuid)
+			
+			
 			let params = {
 				include: (this.sort ? { sort: this.sort }: {}),
-
 				filter: (this.query ? { title: this.query } : {}),
-
 				page: {
-
 				},
-				// uuid: this.uuid 
-				uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
+				uuid: this.item.uuid 
+				//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
 			}
-			
+			console.log('params in Favorite.vue:',params)
 			try {
 				await this.$store.dispatch("content/list", params);
 				const table = this.$store.getters["content/list"];
-				
 				this.playlistID = table.placement.id;
-
 				//this has hundreds of items.
-				table.placement.playlist.slice(0, 20).forEach( (object) => {
+				table.placement.playlist.slice(0, 10).forEach( (object) => {
 					object.playlistID = this.playlistID;
 					object.baseURL = process.env.VUE_APP_API_BASE_URL;
 					this.table.push( object );
 				}); 
-					
-
-				console.log('table: ', this.table)
-
+				console.log('Favorite.vue table: ', this.table)
 			} catch(e){
 				console.log('error');
 				console.log(e);
 			}
+			
 		},
 		
 		next () {

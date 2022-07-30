@@ -80,7 +80,7 @@
 	export default {
 		name: 'VideoSwiper',
 		
-		// props: ['item'],
+		
 		props: ['item'],
 		
 		computed: {
@@ -92,7 +92,7 @@
 		
 		}),
 		created() {
-			// console.log('item in VideoSwiper', item)
+			console.log('item in VideoSwiper.vue ', this.item)
 		},
 		mounted() {
 			
