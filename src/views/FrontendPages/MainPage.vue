@@ -154,6 +154,7 @@ export default {
 					console.log('index: ' + index + ' uuid: ' + playlist.uuid + ' name: ' + playlist.name);
 
 					// console.log( 'pushing playlist: ', playlist)
+					
 					this.playlists.push(playlist);
 
 					

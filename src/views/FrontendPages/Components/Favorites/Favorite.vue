@@ -5,7 +5,7 @@
          <b-col sm="12" class="overflow-hidden">
             <div class="iq-main-header d-flex align-items-center justify-content-between">
                <h4 class="main-title">
-                 Latest Movies (favorites)
+                 {{item.name}}
                </h4>
                <router-link :to="{ name: 'landing-page.movie-category' }" class="iq-view-all">View All</router-link>
             </div>
@@ -140,6 +140,7 @@ export default {
 				table.placement.playlist.slice(0, 10).forEach( (object) => {
 					object.playlistID = this.playlistID;
 					object.baseURL = process.env.VUE_APP_API_BASE_URL;
+					
 					this.table.push( object );
 				}); 
 				console.log('Favorite.vue table: ', this.table)
