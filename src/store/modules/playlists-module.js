@@ -18,7 +18,7 @@ const actions = {
 	
 	async getPlaylists({commit, dispatch}, params) {
 		const rv = await service.getPlaylists( params )
-		console.info(`in module playlists`, rv);
+		// console.info(`in module playlists`, rv);
 		commit('SET_PLAYLISTS', rv);
 		return rv;
 	}

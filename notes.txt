@@ -1,0 +1,80 @@
+it is a tool. it should be used by someone who loves it, and if I have a newer one it will live in a drawer
+
+
+
+
+NETGEAR EXTENDER
+
+monkeystar_2GEXT
+monkeystar_5GEXT
+
+http://192.168.7.61
+
+roosterscruffs
+godhead-bobby-marquis99
+
+What city were you born in 
+New York
+
+What is your youngest sister's first name
+Raquel
+
+
+billyjoe.corvino@gmail.com
+jmsjane@gmail.com
+monkeystar
+0138bills
+
+
+
+firefox account
+benefit-sparkle-hangmen
+
+
+moovlah nice api:
+
+
+playlist1 dl hughley
+http://dev-console-api.moovlah.io/api/v1/player/85bca5b2-f637-430f-be4a-74118e33c82b/playlist
+
+playlist2 - standup math
+http://dev-console-api.moovlah.io/api/v1/player/afe53c7d-4700-4b02-a13d-8febca6fbb55/playlist
+
+playlist3 msnbc
+http://dev-console-api.moovlah.io/api/v1/player/7fb6138b-3fb4-4cb5-9b85-2c9e38f4c98d/playlist
+
+
+ADMIN:
+http://localhost:8081/admin/home-1
+
+
+one playlist
+http://localhost/api/v1/player/de4a9d6c-8976-42d3-ada3-637021d20f62/playlist
+
+
+
+kroger
+axlotl
+numb-healthy-escape1
+
+
+
+bill's android
+718 483 0025
+
+
+VUE_APP_PLAYLIST_GUID = 85bca5b2-f637-430f-be4a-74118e33c82b
+MSNBC:
+e4a9d6c-8976-42d3-ada3-637021d20f62
+7fb6138b-3fb4-4cb5-9b85-2c9e38f4c98d
+
+standup-maths
+afe53c7d-4700-4b02-a13d-8febca6fbb55
+
+
+{"ads": [{"tag": "https://pubads.g.doubleclick.net/gampad/ads?iu=/21775744923/external/single_ad_samples&sz=640x480&cust_params=sample_ct%3Dlinear&ciu_szs=300x250%2C728x90&gdfp_req=1&output=vast&unviewed_position_start=1&env=vp&impl=s&correlator="}], "mute": true, "muted": true, "width": "100%", "height": "100%", "sticky": true, "shuffle": true, "autoPlay": true, "countries": {"allowed": ["US"]}, "anchorCorner": "bottom-left", "onlyShowPlayerIfNoEmbeds": false}
+
+
+
+
+<script src="https://dev-js-sdk.moovlah.com/p/v1/85bca5b2-f637-430f-be4a-74118e33c82b?" async ></script>

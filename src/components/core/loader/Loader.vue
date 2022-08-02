@@ -30,7 +30,7 @@ export default {
       return `background: var(--iq-body-bg) url(${lightLoader}) no-repeat scroll center center;background-size: 15%;`
     },
     ...mapGetters({
-      darkMode: 'Setting/darkModeState'
+    //   darkMode: 'Setting/darkModeState'
     })
   },
   mounted () {

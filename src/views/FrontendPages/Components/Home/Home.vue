@@ -1,7 +1,7 @@
 <template>
 <section id="home" class="iq-main-slider p-0 iq-rtl-direction">
   <Slick @init="navAnimateButton" @reInit="navAnimateButton" id="home-slider" class="slider m-0 p-0" :option="homeSliderOption">
-    <div class="slide slick-bg s-bg-1" v-for="(data,index) in sliderData" :key="index" :style="'background: url('+data.src+'); padding: 100px 0 50px;width:100%; background-size: cover;background-position: center center; background-repeat: no-repeat; height: 100vh; position: relative; z-index: 1;'">
+    <div class="slide slick-bg s-bg-1" v-for="(data,index) in playlists" :key="index" :style="'background: url('+data.poster+'); padding: 100px 0 50px;width:100%; background-size: cover;background-position: center center; background-repeat: no-repeat; height: 100vh; position: relative; z-index: 1;'">
       <b-container fluid class="position-relative h-100">
         <div class="slider-inner h-100">
             <b-row class="align-items-center  h-100 iq-ltr-direction">
@@ -87,9 +87,78 @@ export default {
   name: 'Home',
   components: {
   },
+  
+  props: [
+	'playlists'
+  ],
+  data: () => ({
+	playlist: {},
+	/*
+	sliderData: [
+        { title: 'SAIL COASTER', age: '16', sesson: '2h 40m', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider2.jpg') },
+        { title: 'bushland', age: '18', sesson: '2 Seasons', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider1.jpg') },
+        { title: 'THE ARMY', age: '20', sesson: '3h', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider3.jpg') }
+      ],
+	  */
+	homeSliderOption: {
+        autoplay: false,
+        speed: 800,
+        lazyLoad: 'progressive',
+        arrows: true,
+        dots: false,
+        prevArrow: '<div class="slick-nav prev-arrow"><i></i><svg><use xlink:href="#circle"></svg></div>',
+        nextArrow: '<div class="slick-nav next-arrow"><i></i><svg><use xlink:href="#circle"></svg></div>',
+        responsive: [
+          {
+            breakpoint: 992,
+            settings: {
+              dots: true,
+              arrows: false
+            }
+          }
+        ]
+      }
+
+
+  }),
   mounted () {
+	
   },
-  data () {
+  created() {
+	this.playlist = this.playlists[0]
+	console.log('playlist in home: ',this.playlist)
+  },
+  methods: {
+	
+    navAnimateButton (event, slider) {
+      const nav = document.getElementsByClassName('slick-nav')
+      Array.from(nav, (elem) => {
+        elem.addEventListener('click', (e) => {
+          elem.classList.add('animate')
+          setTimeout(() => {
+            elem.classList.remove('animate')
+          }, 1600)
+        });
+        return false
+      });
+    },
+
+	async getSingle(){
+		const params = {
+			videoID: "755b38db-331e-4525-a663-19840a363ce2",
+			playlistID: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
+		}
+
+		try {
+			await this.$store.dispatch("content/getSingle", params)
+				const singleResponse = this.$store.getters["content/getSingle"]
+				console.log('singleResponse: ', singleResponse)
+		} catch( e ){
+			console.log('getSingle error:', e);
+		}
+	}
+  }
+  /*data () {
     return {
       sliderData: [
         { title: 'SAIL COASTER', age: '16', sesson: '2h 40m', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider2.jpg') },
@@ -116,19 +185,7 @@ export default {
       }
     }
   },
-  methods: {
-    navAnimateButton (event, slider) {
-      const nav = document.getElementsByClassName('slick-nav')
-      Array.from(nav, (elem) => {
-        elem.addEventListener('click', (e) => {
-          elem.classList.add('animate')
-          setTimeout(() => {
-            elem.classList.remove('animate')
-          }, 1600)
-        })
-        return false
-      })
-    }
-  }
+  */
+  
 }
 </script>

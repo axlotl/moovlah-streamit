@@ -78,7 +78,7 @@ const AddShow = () => import('../views/BackendPages/Show/AddShow.vue')
 const ListShow = () => import('../views/BackendPages/Show/ListShow.vue')
 const AddEpisode = () => import('../views/BackendPages/Show/AddEpisode.vue')
 
-const LandingPage = () => import('../views/FrontendPages/MainPage.vue')
+const MainPage = () => import('../views/FrontendPages/MainPage.vue')
 const ShowCategory = () => import('../views/FrontendPages/ShowCategory.vue')
 const CategoryDetail = () => import('../views/FrontendPages/ShowDetail.vue')
 const MovieCatgeory = () => import('../views/FrontendPages/MovieCategory')
@@ -519,12 +519,13 @@ const userChildRoute = (prop) => [
     component: Privacy
   }
 ]
-const landingPageRoutes = (prop) => [
+const mainPageRoutes = (prop) => [
   {
     path: '',
     name: prop + '.landing-page',
     meta: { auth: true, name: 'landing page 1', slider: 'true' },
-    component: LandingPage
+	
+    component: MainPage
   },
   {
     path: '/show-category',
@@ -660,7 +661,7 @@ const routes = [
     name: 'landing-page',
     component: FrontendLayout,
     meta: { auth: true },
-    children: landingPageRoutes('landing-page')
+    children: mainPageRoutes('landing-page')
   },
   {
     path: '/rating',

@@ -1,29 +1,16 @@
 <template>
 
 	<div>
-		<!-- <div class="playlist-container" v-for="(playlist,index) in playlists" :key="index">
-			<Favorites v-if="playlist.uuid !== undefined" :uuid="playlist.uuid"/>
-		</div> -->
-		<!-- <div v-for="(playlist, index) in playlists">
-		<p>item: {{playlist}}</p>
-		<p>index: {{this.playlists['index']}}</p> -->
-			<!-- <component :is="templateOption" :item="bindOptions" :playlist="playlist" :index="index"/> -->
+		<Home id="home" v-if="this.$route.meta.slider === 'true' && ( this.playlists.length > 0)"  :playlists="homePlaylists"/>
+		
 			<component 
 				v-for="(playlist, index) in playlists" 
-				
+				:key="index"
 				:is="templateOption" 
 				:item="playlist" />
+				
 		</div>
 		
-		<!-- 
-	<Favorites :playlist="playlist1"/>
-	<Favorites :playlist="playlist2"/>
-	<Favorites :playlist="playlist3"/>
-	<Favorites :playlist="playlist4"/>
-	<Favorites :playlist="playlist5"/>
-	<Favorites :playlist="playlist6"/>
-	<Favorites :playlist="playlist7"/>
-	 -->
 		<!--
 	<UpComming/>
     <TopTen/>
@@ -36,9 +23,11 @@
 </template>
 <script>
 import { core } from '../../config/pluginInit'
+const Home = () => import('@/views/FrontendPages/Components/Home/Home');
 const Favorites = () => import('./Components/Favorites/Favorite');
 const Foo = () => import('./Components/Suggested/Suggestion');
 const Bar = () => import('./Components/TopTen/Top');
+
 // import Detail from './Components/Details/Detail'
 // import Suggested from './Components/Suggested/Suggestion'
 // import TopTen from './Components/TopTen/Top'
@@ -52,9 +41,11 @@ export default {
 
 	props: [
 		// "playlist",
-		// "playlists"
+		
+		"viewtest"
 	],
 	components: {
+		Home,
 		Favorites,
 		Foo,
 		Bar
@@ -75,7 +66,7 @@ export default {
 			let templates = [
 				'foo','bar','favorites'
 			];
-			console.log( 'random[' + randomKey +']' , templates[randomKey])
+			// console.log( 'random[' + randomKey +']' , templates[randomKey])
 			switch (templates[randomKey]) {
 				/*
 				case 'foo':
@@ -87,10 +78,7 @@ export default {
 				*/
 				default:
 					return Favorites;
-
 			}
-
-
 		},
 		bindOption() {
 		// console.log('bindOption this.playlists: ', this.playlists);
@@ -106,7 +94,7 @@ export default {
 						return Bar;
 					default:
 						return "afe53c7d-4700-4b02-a13d-8febca6fbb55"
-					
+
 				}
 			
 			
@@ -122,6 +110,7 @@ export default {
 	},
 	data: () => ({
 		playlists: [],
+		homePlaylists: [],
 		playlist: null,
 		subComponent: 'Favorites',
 		foo: null,
@@ -130,8 +119,7 @@ export default {
 
 	mounted() {
 		core.index()
-		console.log('Favorites:')
-		console.log(Favorites)
+		console.log("viewtest: ", this.viewtest)
 	},
 	created() {
 		this.getPlaylists()
@@ -141,22 +129,42 @@ export default {
 
 			const params = {
 
-				limit: 8
+				limit: 12
 
 			};
 			try {
+
+
+				/*
+				*	probably you shoud just get all the data in one chunk.
+				*	(instead of a list of uuids)
+				*	
+				*	might take two requests.... (list of playlists, each playlist in detail)
+				*
+				*	see Favorite.vue
+				*
+				*	OR, better, get it all in one object and pass it on down to favorite
+				*
+				*	see commented try{} block below.
+				*	do it here and pass it down the component chain.
+				*
+				*/
+
 				await this.$store.dispatch("playlists/getPlaylists", params)
 				const playlistsResponse = this.$store.getters["playlists/getPlaylists"]
 				// console.log('playlists: ',playlistsResponse);
 
 
 				playlistsResponse.forEach((playlist, index) => {
-					console.log('index: ' + index + ' uuid: ' + playlist.uuid + ' name: ' + playlist.name);
+					// console.log('index: ' + index + ' uuid: ' + playlist.uuid + ' name: ' + playlist.name);
 
-					// console.log( 'pushing playlist: ', playlist)
 					
-					this.playlists.push(playlist);
 
+					// stripped down, let's populate it
+					this.playlists.push(playlist);
+					this.populatePlaylists(playlist)
+					
+					
 					
 				});
 
@@ -167,8 +175,32 @@ export default {
 
 
 		},
-		playlistToProp(){
-
+		async populatePlaylists(playlist){
+			let params = {
+				include: (this.sort ? { sort: this.sort }: {}),
+				filter: (this.query ? { title: this.query } : {}),
+				page: {
+				},
+				uuid: playlist.uuid
+				// uuid: this.item.uuid 
+				//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
+			}
+			try {
+				await this.$store.dispatch("content/list", params);
+				const table = this.$store.getters["content/list"];
+				this.playlistID = table.placement.id;
+				//this has hundreds of items.
+				table.placement.playlist.slice(0, 10).forEach( (object) => {
+					object.playlistID = this.playlistID;
+					object.baseURL = process.env.VUE_APP_API_BASE_URL;
+					object.uuid = playlist.uuid;
+					this.homePlaylists.push( object );
+				}); 
+				console.log('MainPage.vue playlists: ', this.homePlaylists)
+			} catch(e){
+				console.log('error');
+				console.log(e);
+			}
 		}
 	}
 }

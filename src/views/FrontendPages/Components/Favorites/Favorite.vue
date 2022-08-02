@@ -80,7 +80,7 @@ export default {
 		}
 	}),
 	mounted () {
-		console.log('favorites mounted');
+		// console.log('favorites mounted');
 		
 		
 	},
@@ -91,14 +91,8 @@ export default {
 		}
 	},
 	created() {
-		console.log('created');
-		// this.permissions =  this.$store.getters["profile/permissions"];
-		console.log( 'uuid:' , this.item.uuid)
-		console.log('Favorites.vue item: ', this.item)
-
 		
-		
-
+		// console.log('item:', this.item)
 		/*
 		this.$store.watch(
 			
@@ -115,12 +109,12 @@ export default {
 	methods: {
 
 		getListDebounced: _.debounce( function(){
-			console.log('getListDebounced this.item.uuid:: ', this.item.uuid);
+			// console.log('getListDebounced this.item.uuid:: ', this.item.uuid);
 			this.getList();
 		}, 300),
 
 		async getList(){
-			console.log('getList', this.item.uuid)
+			
 			
 			
 			let params = {
@@ -128,10 +122,10 @@ export default {
 				filter: (this.query ? { title: this.query } : {}),
 				page: {
 				},
-				uuid: this.item.uuid 
+				uuid: this.item.uuid
 				//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
 			}
-			console.log('params in Favorite.vue:',params)
+			// console.log('params in Favorite.vue:',params)
 			try {
 				await this.$store.dispatch("content/list", params);
 				const table = this.$store.getters["content/list"];
@@ -143,7 +137,7 @@ export default {
 					
 					this.table.push( object );
 				}); 
-				console.log('Favorite.vue table: ', this.table)
+				// console.log('Favorite.vue table: ', this.table)
 			} catch(e){
 				console.log('error');
 				console.log(e);

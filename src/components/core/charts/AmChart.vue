@@ -23,7 +23,7 @@ export default {
   },
   computed: {
     ...mapGetters({
-      darkMode: 'Setting/darkModeState'
+    //   darkMode: 'Setting/darkModeState'
     })
   },
   mounted () {
