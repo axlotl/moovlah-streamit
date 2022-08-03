@@ -1,7 +1,7 @@
 <template>
 
 	<div>
-		<Home id="home" v-if="this.$route.meta.slider === 'true' && ( this.playlists.length > 0)"  :playlists="homePlaylists"/>
+		<Home id="home" v-if="this.$route.meta.slider === 'true' && ( this.playlists.length > 0)"  :playlist="homePlaylist"/>
 		
 			<component 
 				v-for="(playlist, index) in playlists" 
@@ -36,6 +36,7 @@ const Bar = () => import('./Components/TopTen/Top');
 // import UpComming from './Components/UpcomingMovie/Upcomming'
 
 import axios from 'axios'
+import { async } from '@firebase/util';
 export default {
 	name: 'MainPage',
 
@@ -110,7 +111,9 @@ export default {
 	},
 	data: () => ({
 		playlists: [],
-		homePlaylists: [],
+		playlistsArray: [],
+		// playlistsObject,
+		homePlaylist: [],
 		playlist: null,
 		subComponent: 'Favorites',
 		foo: null,
@@ -162,45 +165,123 @@ export default {
 
 					// stripped down, let's populate it
 					this.playlists.push(playlist);
-					this.populatePlaylists(playlist)
+					
 					
 					
 					
 				});
 
 				console.log('MainPage playlists', this.playlists)
+				this.populatePlaylists()
 			} catch (e) {
 				console.log('getPlaylists error: ', e);
 			}
 
 
 		},
-		async populatePlaylists(playlist){
-			let params = {
-				include: (this.sort ? { sort: this.sort }: {}),
-				filter: (this.query ? { title: this.query } : {}),
-				page: {
-				},
-				uuid: playlist.uuid
-				// uuid: this.item.uuid 
-				//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
+		async populatePlaylists(){
+			console.log('populate', this.playlists)
+			//for(const {playlistIndex, playlist} of this.playlists){
+				// console.log( 'for loop ' + playlistIndex + ' ', playlist)
+			//}
+			//this.playlists.forEach((playlist, playlistIndex) => {
+
+			await Promise.all( this.playlists.map( async (playlist, playlistIndex) =>{
+				// console.log( 'outer map  ', playlist);
+				// console.log( 'playlistIndex: ', playlistIndex)
+				try {
+						const params = {
+							uuid: playlist.uuid
+						}
+						await this.$store.dispatch("content/list", params);
+						const table = this.$store.getters["content/list"];
+						this.playlistID = table.placement.id;
+						//this has hundreds of items.
+						//table.placement.playlist.slice(0, 10).forEach( (object, index) => {
+						// console.log( 'table.placement.playlist ', table.placement.playlist)
+						
+						
+						
+						/* for( const [index, object] of table.placement.playlist ){
+							console.log( 'inside for loop: [' + index +']', object)
+						
+							object.playlistID = object.id;
+							object.baseURL = process.env.VUE_APP_API_BASE_URL;
+							object.uuid = playlist.uuid;
+							this.playlistsArray[index].push( object );
+							// this.homePlaylist.push( object );
+						} */
+						
+						await Promise.all( table.placement.playlist.map(async (object, index) => {
+							
+							
+							object.playlistID = table.placement.id;
+							object.baseURL = process.env.VUE_APP_API_BASE_URL;
+							object.uuid = object.id;
+							console.log( 'inner map : [' + playlistIndex + '] [' + index +']', object)
+							// debugger;
+
+							// console.log('isArray? ');
+							// console.log(typeof(this.playlistsArray))
+							// console.log(!Array.isArray(this.playlistsArray[playlistIndex]))
+							if( !Array.isArray(this.playlistsArray[playlistIndex])){
+								this.playlistsArray[playlistIndex] = [];
+							}
+							if( !Array.isArray(this.playlistsArray[playlistIndex][index])){
+								this.playlistsArray[playlistIndex][index] = [];
+							}
+							
+							// console.log( 'this.playlistsArray inside map: ', this.playlistsArray);	
+								
+							
+							this.playlistsArray[playlistIndex][index].push( object );
+						}));
+						console.log( 'this.playlistsArray: ', this.playlistsArray);
+						
+					} catch(e){
+						console.log('error');
+						console.log(e);
+					}
+			}));
+				
+				/*
+				async (playlist, playlistIndex) => {
+					console.log( 'anonymous async')
+					let params = {
+						include: (this.sort ? { sort: this.sort }: {}),
+						filter: (this.query ? { title: this.query } : {}),
+						page: {
+						},
+						uuid: playlist.uuid
+						// uuid: this.item.uuid 
+						//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
+					}
+					try {
+						await this.$store.dispatch("content/list", params);
+						const table = this.$store.getters["content/list"];
+						this.playlistID = table.placement.id;
+						//this has hundreds of items.
+						table.placement.playlist.slice(0, 10).forEach( (object) => {
+							object.playlistID = this.playlistID;
+							object.baseURL = process.env.VUE_APP_API_BASE_URL;
+							object.uuid = playlist.uuid;
+							this.playlistsArray[playlistIndex].push( object );
+							// this.homePlaylist.push( object );
+						}); 
+						
+					} catch(e){
+						console.log('error');
+						console.log(e);
+					}
+					console.log('MainPage.vue playlistsArray: ', this.playlistsArray)
+				}
+				
+				
 			}
-			try {
-				await this.$store.dispatch("content/list", params);
-				const table = this.$store.getters["content/list"];
-				this.playlistID = table.placement.id;
-				//this has hundreds of items.
-				table.placement.playlist.slice(0, 10).forEach( (object) => {
-					object.playlistID = this.playlistID;
-					object.baseURL = process.env.VUE_APP_API_BASE_URL;
-					object.uuid = playlist.uuid;
-					this.homePlaylists.push( object );
-				}); 
-				console.log('MainPage.vue playlists: ', this.homePlaylists)
-			} catch(e){
-				console.log('error');
-				console.log(e);
-			}
+			*/
+		},
+		async populateSinglePlaylist(playlist){
+			
 		}
 	}
 }

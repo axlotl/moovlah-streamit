@@ -93,13 +93,7 @@ export default {
   ],
   data: () => ({
 	playlist: {},
-	/*
-	sliderData: [
-        { title: 'SAIL COASTER', age: '16', sesson: '2h 40m', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider2.jpg') },
-        { title: 'bushland', age: '18', sesson: '2 Seasons', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider1.jpg') },
-        { title: 'THE ARMY', age: '20', sesson: '3h', text: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.", src: require('@/assets/images/frontend/slider/slider3.jpg') }
-      ],
-	  */
+	
 	homeSliderOption: {
         autoplay: false,
         speed: 800,
@@ -125,7 +119,7 @@ export default {
 	
   },
   created() {
-	this.playlist = this.playlists[0]
+	
 	console.log('playlist in home: ',this.playlist)
   },
   methods: {

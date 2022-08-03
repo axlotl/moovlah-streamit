@@ -14,7 +14,7 @@ function getPlaylists(params) {
 	};
 	// console.log( "options:", options);
 	return axios.get(playlistsAPI, options).then((response) => {
-		console.log( 'response: ', response.data.playlists)
+		// console.log( 'response: ', response.data.playlists)
 	
 		// return response.data.playlists.filter((el, index) => {
 		// 	return index % 2 === 0;
