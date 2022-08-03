@@ -5,10 +5,17 @@ import qs from 'qs';
 
 
 function list(params) {
-	// console.log('params in content-service:',params)
-	const url = `${process.env.VUE_APP_API_BASE_URL}/player/${params.uuid}/playlist`;
-	// const url = `${process.env.VUE_APP_API_BASE_URL}/player/85bca5b2-f637-430f-be4a-74118e33c82b/playlist`;
-	console.log("content URL ", `${url}`);
+	const contentlistStart = window.performance.now();
+	
+	const url = (()=> {
+
+		if( params.limit !== undefined ){
+			return `${process.env.VUE_APP_API_BASE_URL}/player/${params.uuid}/playlist/${params.limit}`;	
+		} else {
+			return `${process.env.VUE_APP_API_BASE_URL}/player/${params.uuid}/playlist`;
+		}
+	})();
+	
 	const options = {
 		params: params,
 		paramsSerializer: function (params) {
@@ -19,7 +26,8 @@ function list(params) {
 	// console.log("CONTENTS URL: ", `${url}`);
 	
 	return axios.get(`${url}`, options).then((response) => {
-		
+		const contentlistEnd = window.performance.now();
+		console.log(`content Execution time: ${contentlistEnd - contentlistStart} ms`);
 		return response.data;
 	});
 }

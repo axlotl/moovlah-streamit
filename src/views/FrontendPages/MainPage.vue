@@ -4,10 +4,10 @@
 		<Home id="home" v-if="this.$route.meta.slider === 'true' && ( this.playlists.length > 0)"  :playlist="homePlaylist"/>
 		
 			<component 
-				v-for="(playlist, index) in playlists" 
+				v-for="(playlist, index) in playlistsArray" 
 				:key="index"
 				:is="templateOption" 
-				:item="playlist" />
+				:playlist="playlist" />
 				
 		</div>
 		
@@ -112,7 +112,7 @@ export default {
 	data: () => ({
 		playlists: [],
 		playlistsArray: [],
-		// playlistsObject,
+		playlistsObject: {},
 		homePlaylist: [],
 		playlist: null,
 		subComponent: 'Favorites',
@@ -132,26 +132,11 @@ export default {
 
 			const params = {
 
-				limit: 12
+				limit: 6
 
 			};
 			try {
 
-
-				/*
-				*	probably you shoud just get all the data in one chunk.
-				*	(instead of a list of uuids)
-				*	
-				*	might take two requests.... (list of playlists, each playlist in detail)
-				*
-				*	see Favorite.vue
-				*
-				*	OR, better, get it all in one object and pass it on down to favorite
-				*
-				*	see commented try{} block below.
-				*	do it here and pass it down the component chain.
-				*
-				*/
 
 				await this.$store.dispatch("playlists/getPlaylists", params)
 				const playlistsResponse = this.$store.getters["playlists/getPlaylists"]
@@ -159,127 +144,98 @@ export default {
 
 
 				playlistsResponse.forEach((playlist, index) => {
-					// console.log('index: ' + index + ' uuid: ' + playlist.uuid + ' name: ' + playlist.name);
-
-					
 
 					// stripped down, let's populate it
 					this.playlists.push(playlist);
-					
-					
-					
+										
 					
 				});
 
-				console.log('MainPage playlists', this.playlists)
-				this.populatePlaylists()
+				console.log('MainPage playlists', this.playlists);
+				this.populatePlaylists();
+				
+				this.homePlaylist = this.playlistsArray[0]
 			} catch (e) {
 				console.log('getPlaylists error: ', e);
 			}
-
+			// console.log( 'this.playlistsArray: ', this.playlistsArray);
+			console.log( 'this.playlistsObject: ', this.playlistsObject);
 
 		},
-		async populatePlaylists(){
-			console.log('populate', this.playlists)
-			//for(const {playlistIndex, playlist} of this.playlists){
-				// console.log( 'for loop ' + playlistIndex + ' ', playlist)
-			//}
-			//this.playlists.forEach((playlist, playlistIndex) => {
 
+		async populatePlaylists(){
+			
+			const outerStart = window.performance.now();
+			
 			await Promise.all( this.playlists.map( async (playlist, playlistIndex) =>{
 				// console.log( 'outer map  ', playlist);
-				// console.log( 'playlistIndex: ', playlistIndex)
+				
 				try {
 						const params = {
-							uuid: playlist.uuid
+							uuid: playlist.uuid, 
+							limit: 10
 						}
 						await this.$store.dispatch("content/list", params);
 						const table = this.$store.getters["content/list"];
 						this.playlistID = table.placement.id;
-						//this has hundreds of items.
-						//table.placement.playlist.slice(0, 10).forEach( (object, index) => {
-						// console.log( 'table.placement.playlist ', table.placement.playlist)
 						
 						
 						
-						/* for( const [index, object] of table.placement.playlist ){
-							console.log( 'inside for loop: [' + index +']', object)
+						const innerStart = window.performance.now();
+ 
+
+						// this.playlistsObject[table.placement.id] = [];
+						// this.playlistsObject[table.placement.id].playlistID = playlistIndex;
+						this.playlistsObject[playlistIndex] = {};
+						this.playlistsObject[playlistIndex].playlistID = this.playlistID;
+						this.playlistsObject[playlistIndex].playlist = []
+
 						
-							object.playlistID = object.id;
-							object.baseURL = process.env.VUE_APP_API_BASE_URL;
-							object.uuid = playlist.uuid;
-							this.playlistsArray[index].push( object );
-							// this.homePlaylist.push( object );
-						} */
-						
+
 						await Promise.all( table.placement.playlist.map(async (object, index) => {
 							
 							
 							object.playlistID = table.placement.id;
 							object.baseURL = process.env.VUE_APP_API_BASE_URL;
 							object.uuid = object.id;
-							console.log( 'inner map : [' + playlistIndex + '] [' + index +']', object)
-							// debugger;
-
-							// console.log('isArray? ');
-							// console.log(typeof(this.playlistsArray))
-							// console.log(!Array.isArray(this.playlistsArray[playlistIndex]))
+							// console.log( 'playlistIndex: ', playlistIndex)
+							// console.log( 'index: ', index)
+							
 							if( !Array.isArray(this.playlistsArray[playlistIndex])){
-								this.playlistsArray[playlistIndex] = [];
+								this.playlistsArray[playlistIndex] = {};
+								
+								
 							}
-							if( !Array.isArray(this.playlistsArray[playlistIndex][index])){
-								this.playlistsArray[playlistIndex][index] = [];
-							}
+							// if( !Array.isArray(this.playlistsArray[playlistIndex][index])){
+							// 	this.playlistsArray[playlistIndex][index] = [];
+							// }
 							
 							// console.log( 'this.playlistsArray inside map: ', this.playlistsArray);	
 								
 							
-							this.playlistsArray[playlistIndex][index].push( object );
+							// this.playlistsArray[playlistIndex] = object;
+
+							this.playlistsObject[playlistIndex].playlist.push( object );
+							 
+							
 						}));
-						console.log( 'this.playlistsArray: ', this.playlistsArray);
+
+						const innerEnd = window.performance.now();
+						console.log(`Inner Execution time: ${innerEnd - innerStart} ms`);
+						
 						
 					} catch(e){
 						console.log('error');
 						console.log(e);
 					}
 			}));
-				
-				/*
-				async (playlist, playlistIndex) => {
-					console.log( 'anonymous async')
-					let params = {
-						include: (this.sort ? { sort: this.sort }: {}),
-						filter: (this.query ? { title: this.query } : {}),
-						page: {
-						},
-						uuid: playlist.uuid
-						// uuid: this.item.uuid 
-						//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
-					}
-					try {
-						await this.$store.dispatch("content/list", params);
-						const table = this.$store.getters["content/list"];
-						this.playlistID = table.placement.id;
-						//this has hundreds of items.
-						table.placement.playlist.slice(0, 10).forEach( (object) => {
-							object.playlistID = this.playlistID;
-							object.baseURL = process.env.VUE_APP_API_BASE_URL;
-							object.uuid = playlist.uuid;
-							this.playlistsArray[playlistIndex].push( object );
-							// this.homePlaylist.push( object );
-						}); 
-						
-					} catch(e){
-						console.log('error');
-						console.log(e);
-					}
-					console.log('MainPage.vue playlistsArray: ', this.playlistsArray)
-				}
-				
-				
-			}
-			*/
+			
+			const outerEnd = window.performance.now();
+			console.log(`Outer Execution time: ${outerEnd - outerStart} ms`);
+			
+			console.log( 'this.playlistsObject: ', this.playlistsObject);
 		},
+
 		async populateSinglePlaylist(playlist){
 			
 		}

@@ -10,9 +10,9 @@
                <router-link :to="{ name: 'landing-page.movie-category' }" class="iq-view-all">View All</router-link>
             </div>
             <div class="upcoming-contents">
-               <Slick v-if="table && table.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
+               <Slick v-if="playlist && playlist.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
 					
-				  		<VideoSwiper v-if="table.length > 0" class="slide-item" v-for="(item,index) in table" :key="index" :item="item" />
+				  		<VideoSwiper v-if="playlist.length > 0" class="slide-item" v-for="(item,index) in playlist" :key="index" :item="item" />
                   
                </Slick>
             </div>
@@ -32,7 +32,7 @@ export default {
 	components: {
 		VideoSwiper
 	},
-	props: ['item'],
+	props: ['playlist'],
 	
 	
 	data: () => ({
@@ -85,14 +85,14 @@ export default {
 		
 	},
 	watch: {
-		query: {
+		/* query: {
 			handler: "getListDebounced",
 			immediate: true
-		}
+		} */
 	},
 	created() {
 		
-		// console.log('item:', this.item)
+		console.log('favorites playlist:', this.playlist)
 		/*
 		this.$store.watch(
 			
@@ -103,12 +103,12 @@ export default {
 			
 		});
 		*/
-		this.getList()
+		// this.getList()
 		
 	},
 	methods: {
 
-		getListDebounced: _.debounce( function(){
+		/* getListDebounced: _.debounce( function(){
 			// console.log('getListDebounced this.item.uuid:: ', this.item.uuid);
 			this.getList();
 		}, 300),
@@ -144,7 +144,7 @@ export default {
 			}
 			
 		},
-		
+ */		
 		next () {
 		this.$refs.dSlick.next()
 		},

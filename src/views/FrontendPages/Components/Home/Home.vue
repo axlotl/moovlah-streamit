@@ -92,7 +92,7 @@ export default {
 	'playlists'
   ],
   data: () => ({
-	playlist: {},
+	playlist: [],
 	
 	homeSliderOption: {
         autoplay: false,
