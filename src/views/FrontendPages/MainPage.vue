@@ -2,14 +2,7 @@
 
 	<div>
 
-
-
-		<!--
-
-
-			maybe make a single 
-		-->
-		<Home id="home" v-if="this.$route.meta.slider === 'true'"  :playlistObject="homePlaylist"/>
+		<Home id="home" v-if="this.$route.meta.slider === 'true' && homePlaylist.length > 0"  :playlist="homePlaylist"/>
 		
 			<!-- <component 
 				v-for="(single, index) in this.playlistsObject" 
@@ -22,11 +15,6 @@
 				:playlistObject="single"
 			/>
 
-				<!-- 
-
-						try just sending a <Favorite> component
-
-				-->
 				
 		</div>
 		
@@ -41,11 +29,11 @@
 	
 </template>
 <script>
-import { core } from '../../config/pluginInit'
+import { core } from '@/config/pluginInit'
 const Home = () => import('@/views/FrontendPages/Components/Home/Home');
-const  Favorite = () => import('./Components/Favorites/Favorite');
-const Foo = () => import('./Components/Suggested/Suggestion');
-const Bar = () => import('./Components/TopTen/Top');
+const  Favorite = () => import('@/views/FrontendPages/Components/Favorites/Favorite');
+const Foo = () => import('@/views/FrontendPages/Components/Suggested/Suggestion');
+const Bar = () => import('@/views/FrontendPages/Components/TopTen/Top');
 
 // import Detail from './Components/Details/Detail'
 // import Suggested from './Components/Suggested/Suggestion'
@@ -129,10 +117,9 @@ export default {
 	},
 	data: () => ({
 		playlists: [],
-		playlistsArray: [],
 		playlistsObject: {},
-		homePlaylist: {},
-		playlist: null,
+		homePlaylist: [],
+		
 		subComponent: 'Favorites',
 		foo: null,
 		bar: null
@@ -140,7 +127,6 @@ export default {
 
 	mounted() {
 		core.index()
-		console.log("viewtest: ", this.viewtest)
 	},
 	created() {
 		this.getPlaylists()
@@ -176,8 +162,7 @@ export default {
 			} catch (e) {
 				console.log('getPlaylists error: ', e);
 			}
-			// console.log( 'this.playlistsArray: ', this.playlistsArray);
-			console.log( 'this.playlistsObject: ', this.playlistsObject);
+			// console.log( 'this.playlistsObject: ', this.playlistsObject);
 
 		},
 
@@ -219,19 +204,11 @@ export default {
 							// console.log( 'playlistIndex: ', playlistIndex)
 							// console.log( 'index: ', index)
 							
-							if( !Array.isArray(this.playlistsArray[playlistIndex])){
-								this.playlistsArray[playlistIndex] = {};
-								
-								
+
+							if( !this.playlistsObject[playlistIndex]){
+								this.playlistsObject[playlistIndex] = {'playlist' : []};
 							}
-							// if( !Array.isArray(this.playlistsArray[playlistIndex][index])){
-							// 	this.playlistsArray[playlistIndex][index] = [];
-							// }
 							
-							// console.log( 'this.playlistsArray inside map: ', this.playlistsArray);	
-								
-							
-							// this.playlistsArray[playlistIndex] = object;
 
 							this.playlistsObject[playlistIndex].playlist.push( object );
 							 
@@ -239,7 +216,7 @@ export default {
 						}));
 
 						const innerEnd = window.performance.now();
-						console.log(`Inner Execution time: ${innerEnd - innerStart} ms`);
+						// console.log(`Inner Execution time: ${innerEnd - innerStart} ms`);
 						
 						
 					} catch(e){
@@ -249,10 +226,13 @@ export default {
 			}));
 			
 			const outerEnd = window.performance.now();
-			console.log(`Outer Execution time: ${outerEnd - outerStart} ms`);
-			this.homePlaylist = this.playlistsObject[0]
-			console.log( 'this.playlistsObject: ', this.playlistsObject);
-			console.log('this.homePlaylist', this.homePlaylist)
+			// console.log(`Outer Execution time: ${outerEnd - outerStart} ms`);
+			
+			
+			// console.log( 'this.playlistsObject: ', this.playlistsObject);
+			this.homePlaylist = this.playlistsObject['0'].playlist;
+			
+			// console.log('this.homePlaylist', this.homePlaylist)
 			return;
 		},
 

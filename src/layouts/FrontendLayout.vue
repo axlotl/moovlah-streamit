@@ -195,7 +195,7 @@
         mode="out-in"
         :leave-active-class="`animated ${animated.exit}`"
       >
-        <router-view :viewtest="{'viewtest': 'hello'}"/>
+        <router-view/>
       </transition>
     </div>
     <modeswitch/>

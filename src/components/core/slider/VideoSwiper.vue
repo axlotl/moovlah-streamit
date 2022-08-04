@@ -9,45 +9,36 @@
 				<h6 class="iq-title">
 					<router-link :to="{ 
 						name: 'landing-page.movie-detail', 
-						movie: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL
-	
-						},
-						meta: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL
-	
-						},
-						query: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL
-	
-						},
+						movie: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
+						meta: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
+						query: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
 						params: { 
 							itemID: item.id,
 							playlistID: item.playlistID,
 							baseURL: item.baseURL
 	
-							/*
-	
-								phoebe should you send a hair pic today
-	
-	
-							*/
 						}
-					 }" :movie="{ itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL}"></router-link>
+					 }" :movie="{ itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL}">{{item.title}}</router-link>
 					 <!-- <ul>
 						<li  v-for="(item,index) in item" :key="index">{{index}} :: {{item}}</li>
 					 </ul> -->
 				</h6>
 				<div class="movie-time d-flex align-items-center my-2 iq-ltr-direction">
-					<div class="badge badge-secondary p-1 mr-2">{{ item.age }}</div>
-					<span class="text-white">{{ item.time }}</span>
+					<div class="badge badge-secondary p-1 mr-2">{{ item.releasedate }}</div>
+					<span class="text-white">item.time</span>
 				</div>
 				<div class="hover-buttons">
 					<router-link :to="{ 
-							name: 'landing-page.movie-detail', 
+						name: 'landing-page.movie-detail', 
+						movie: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
+						meta: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
+						query: {itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL},
 						
-							params: { 
-								itemID: item.id,
-								playlistID: item.playlistID,
-								baseURL: item.baseURL
-							} 
+						params: { 
+							itemID: item.id,
+							playlistID: item.playlistID,
+							baseURL: item.baseURL
+						} 
 						}" role="button" class="btn btn-hover iq-button"><i class="fa fa-play mr-1" aria-hidden="true"></i>
 						Play Now
 					</router-link>
@@ -94,7 +85,7 @@
 		
 		}),
 		created() {
-			console.log('item in VideoSwiper.vue ', this.item)
+			// console.log('item in VideoSwiper.vue ', this.item)
 		},
 		mounted() {
 			

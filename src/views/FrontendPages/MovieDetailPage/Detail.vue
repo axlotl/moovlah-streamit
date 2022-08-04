@@ -3,7 +3,7 @@
         <b-row>
             <b-col lg="12" class="col-lg-12">
                 <div class="trending-info g-border">
-                    <h1 v-if="videoObj !== {}" class="trending-text big-title text-uppercase mt-0">{{ videoObj.title }}</h1>
+                    <h1 v-if="videoObj" class="trending-text big-title text-uppercase mt-0">{{ videoObj.title }}</h1>
                     <ul class="p-0 list-inline d-flex align-items-center movie-content">
                         <li class="text-white">Action</li>
                         <li class="text-white">Drama</li>
@@ -15,11 +15,11 @@
                         <span class="trending-year">2020</span>
                     </div>
                     <div class="d-flex align-items-center series mb-4">
-                        <a href="javascript:void();"><img src="images/trending/trending-label.png" class="img-fluid"
+                        <a href="javascript:void();"><img src="" class="img-fluid"
                             alt=""></a>
                         <span class="text-gold ml-3">#2 in Series Today</span>
                     </div>
-                    <p v-if="videoObj !== {}" class="trending-dec w-100 mb-0">{{videoObj.description}}</p>
+                    <p v-if="videoObj" class="trending-dec w-100 mb-0">{{videoObj.description}}</p>
                     <ul class="list-inline p-0 mt-4 share-icons music-play-lists">
                         <li><span><i class="ri-add-line"></i></span></li>
                         <li><span><i class="ri-heart-fill"></i></span></li>
@@ -48,11 +48,6 @@ export default {
   components: {
   },
   mounted () {
-
-	// console.log('videoObj in Detail.vue:' )
-	// console.log(  this.videoObj)
-	// this.description = this.videoObj.description;
-	// this.title = this.videoObj.title;
   },
   
   

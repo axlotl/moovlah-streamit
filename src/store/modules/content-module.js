@@ -27,7 +27,7 @@ const actions = {
 	
 	async getSingle({commit, dispatch}, params){
 		const rv = await service.getSingle(params);
-		console.info(`in module content`);
+		// console.info(`in module content`);
 		commit(SET_SINGLE, $rv);
 		return rv;
 	}

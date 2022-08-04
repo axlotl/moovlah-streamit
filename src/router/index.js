@@ -554,16 +554,18 @@ const mainPageRoutes = (prop) => [
 	props: true
     
   },
-  /*
+  
   {
-    path: '/movie-detail/:playlistID/:itemID',
-    name: 'landing-page.movie-detail-params',
+    path: '/movie-detail/:playlistID/:itemID/:baseURL',
+    name: 'landing-page.movie-detail',
     meta: { auth: true, name: 'Movie Detail' },
     component: MovieDetail,
+	props: true
     
     
   },
-  */
+  
+  
   {
     path: '/show-single',
     name: prop + '.show-single',

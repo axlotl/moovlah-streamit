@@ -32,8 +32,8 @@ export default {
 	},
 	mounted () {
 	  core.index();
-	  console.log('props', this.$props);
-	  console.log('route', this.$route);
+	//   console.log('props', this.$props);
+	//   console.log('route', this.$route);
 	},
 	data () {
 	  return {

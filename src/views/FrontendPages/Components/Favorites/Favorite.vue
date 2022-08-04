@@ -36,7 +36,7 @@ export default {
 	
 	
 	data: () => ({
-		// item: { 'title': 'here is a not real title'},
+		
 		table: [],
 		query: null,
 		sort: "created_at",
@@ -93,8 +93,8 @@ export default {
 	},
 	created() {
 		
-		console.log('favorites playlist:')
-		console.log(this.playlistObject)
+		// console.log('favorites playlist:')
+		// console.log(this.playlistObject)
 		/*
 		this.$store.watch(
 			
@@ -110,43 +110,6 @@ export default {
 	},
 	methods: {
 
-		/* getListDebounced: _.debounce( function(){
-			// console.log('getListDebounced this.item.uuid:: ', this.item.uuid);
-			this.getList();
-		}, 300),
-
-		async getList(){
-			
-			
-			
-			let params = {
-				include: (this.sort ? { sort: this.sort }: {}),
-				filter: (this.query ? { title: this.query } : {}),
-				page: {
-				},
-				uuid: this.item.uuid
-				//uuid: "afe53c7d-4700-4b02-a13d-8febca6fbb55"
-			}
-			// console.log('params in Favorite.vue:',params)
-			try {
-				await this.$store.dispatch("content/list", params);
-				const table = this.$store.getters["content/list"];
-				this.playlistID = table.placement.id;
-				//this has hundreds of items.
-				table.placement.playlist.slice(0, 10).forEach( (object) => {
-					object.playlistID = this.playlistID;
-					object.baseURL = process.env.VUE_APP_API_BASE_URL;
-					
-					this.table.push( object );
-				}); 
-				// console.log('Favorite.vue table: ', this.table)
-			} catch(e){
-				console.log('error');
-				console.log(e);
-			}
-			
-		},
- */		
 		next () {
 		this.$refs.dSlick.next()
 		},

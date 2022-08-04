@@ -22,13 +22,13 @@ const mutations = {
 const actions = {
 	async getVideoObj({commit, dispatch}, params) {
 		const rv = await service.getVideoObj( params )
-		console.info(`in module video`, rv);
+		// console.info(`in module video`, rv);
 		commit('SET_VIDEO_OBJ', rv);
 		return rv;
 	},
 	async mp4URL({commit, dispatch}, obj){
 		const rv = await service.mp4URL(obj)
-		console.info(`in module video mp4URL`, rv);
+		// console.info(`in module video mp4URL`, rv);
 		commit( 'SET_MP4', rv);
 		return rv;
 	}

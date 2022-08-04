@@ -1,14 +1,14 @@
 <template>
 <div>
-	<BannerVideo :videoObj="videoObj" v-if="videoObj !== undefined"/>
-	<Details :videoObj="videoObj" />
-	<MoreLike/>
+	<BannerVideo :videoObj="videoObj" v-if="videoObj"/>
+	<Detail :videoObj="videoObj" v-if="videoObj" />
+	<MoreLike :playlistID="playlistID" v-if="playlistID"/>
 	<!-- <Upcomming/> -->
 </div>
 </template>
 <script>
 import { core } from '@/config/pluginInit'
-import Details from '@/views/FrontendPages/MovieDetailPage/Detail'
+import Detail from '@/views/FrontendPages/MovieDetailPage/Detail'
 // import Upcomming from '@/views/FrontendPages/MovieDetailPage/Upcomming'
 import MoreLike from '@/views/FrontendPages/MovieDetailPage/MoreLike'
 import BannerVideo from '@/views/FrontendPages/MovieDetailPage/BannerVideo'
@@ -17,45 +17,48 @@ import _ from 'lodash'
 export default {
   name: 'MovieDetail',
   components: {
-    Details,
+    Detail,
     // Upcomming,
     MoreLike,
 	BannerVideo
   },
-  props: ["videoObj"],
+  props: [],
   
   mounted () {
-	// console.log('Details', Details)
-	// console.log('BannerVideo:',BannerVideo)
 	
-    // console.info(`MoviePageMovieDetail.vue route`, this.$route);
-	// console.log( 'MoviePageMovieDetail.vue videoOb:', this.vidoObj)
+	
 	core.index()
   },
   created() {
-	this.getVideoObjDebounced();
+	// console.log('route: ', this.$route)
+	// console.log( 'this:', this);
 	
-  },
+	this.getVideoObjDebounced();
+	this.playlistID = this.$route.query.playlistID
+	
+  	},
+	 data: () => ({
+		videoObj: null,
+		playlistURL: null
+	}),
 
   methods: {
 	
 	getVideoObjDebounced: _.debounce( function(){
-		console.log('getVideoObjDebounced');
+		// console.log('getVideoObjDebounced');
 		this.getVideoObj();
 	}, 300),
 
 
 
 	async getVideoObj(){
-		console.log('getVideoObj')
+		// console.log('getVideoObj');
 		let params = {
-		
 			baseURL: this.$route.query.baseURL,
 			playlistID: this.$route.query.playlistID,
 			videoID: this.$route.query.itemID
-	
+			
 		};
-		
 		
 		console.log('...MovieDetail.vue params:::: ', params);
 		try {
@@ -66,14 +69,8 @@ export default {
 			
 
 			this.videoObj = videoObj; 
-			console.log( 'MovieDetail.vue video object: ', this.videoObj)
-			// const url = videoObj.sources.mp4._676p
-			// this.videoURL = url;
-			// this.videoTile = videoObj.title;
-			// this.videoDescription = videoObj.description;
-	  		// console.log('videoURL in MovieDetails.vue ');
-			// console.log( this.videoURL);
-			// console.log('videoObj in MovieDetails.vue:',this.videoObj);
+			// console.log( 'MovieDetail.vue video object: ', this.videoObj)
+			
 
 		} catch( e ){
 			console.log( 'video error:', e)
@@ -81,9 +78,6 @@ export default {
 		
 		
 	}
-  },
-  data: () => ({
-    	
-	})
+  } 
 }
 </script>
