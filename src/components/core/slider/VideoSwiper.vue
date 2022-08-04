@@ -30,7 +30,7 @@
 	
 							*/
 						}
-					 }" :movie="{ itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL}">{{ item.title }}</router-link>
+					 }" :movie="{ itemID: item.id,playlistID: item.playlistID,baseURL: item.baseURL}"></router-link>
 					 <!-- <ul>
 						<li  v-for="(item,index) in item" :key="index">{{index}} :: {{item}}</li>
 					 </ul> -->
@@ -94,7 +94,7 @@
 		
 		}),
 		created() {
-			// console.log('item in VideoSwiper.vue ', this.item)
+			console.log('item in VideoSwiper.vue ', this.item)
 		},
 		mounted() {
 			

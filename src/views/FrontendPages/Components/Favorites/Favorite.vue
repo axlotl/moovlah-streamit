@@ -5,14 +5,14 @@
          <b-col sm="12" class="overflow-hidden">
             <div class="iq-main-header d-flex align-items-center justify-content-between">
                <h4 class="main-title">
-                 {{item.name}}
+                 {{playlistObject.playlist.title}}
                </h4>
                <router-link :to="{ name: 'landing-page.movie-category' }" class="iq-view-all">View All</router-link>
             </div>
             <div class="upcoming-contents">
-               <Slick v-if="playlist && playlist.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
+               <Slick v-if="playlistObject.playlist && playlistObject.playlist.length > 0" class="favorites-slider list-inline row p-0 mb-0 iq-rtl-direction" ref="dSlick" :option="favOption">
 					
-				  		<VideoSwiper v-if="playlist.length > 0" class="slide-item" v-for="(item,index) in playlist" :key="index" :item="item" />
+				  		<VideoSwiper v-if="playlistObject.playlist.length > 0" class="slide-item" v-for="(item,index) in playlistObject.playlist" :key="index" :item="item" />
                   
                </Slick>
             </div>
@@ -32,16 +32,16 @@ export default {
 	components: {
 		VideoSwiper
 	},
-	props: ['playlist'],
+	props: ['playlistObject', "item"],
 	
 	
 	data: () => ({
-		// item: { 'title': 'here is a title'},
+		// item: { 'title': 'here is a not real title'},
 		table: [],
 		query: null,
 		sort: "created_at",
 		permissions: [],
-		playlistID: '',
+		
 		favOption: {
 			dots: false,
 			arrows: true,
@@ -80,7 +80,8 @@ export default {
 		}
 	}),
 	mounted () {
-		// console.log('favorites mounted');
+		console.log('favorites mounted');
+		
 		
 		
 	},
@@ -92,7 +93,8 @@ export default {
 	},
 	created() {
 		
-		console.log('favorites playlist:', this.playlist)
+		console.log('favorites playlist:')
+		console.log(this.playlistObject)
 		/*
 		this.$store.watch(
 			

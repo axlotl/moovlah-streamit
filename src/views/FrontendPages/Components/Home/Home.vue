@@ -1,7 +1,7 @@
 <template>
 <section id="home" class="iq-main-slider p-0 iq-rtl-direction">
   <Slick @init="navAnimateButton" @reInit="navAnimateButton" id="home-slider" class="slider m-0 p-0" :option="homeSliderOption">
-    <div class="slide slick-bg s-bg-1" v-for="(data,index) in playlists" :key="index" :style="'background: url('+data.poster+'); padding: 100px 0 50px;width:100%; background-size: cover;background-position: center center; background-repeat: no-repeat; height: 100vh; position: relative; z-index: 1;'">
+    <div class="slide slick-bg s-bg-1" v-for="(playlist,index) in playlistObject.playlist" :key="index" :style="'background: url('+data.poster+'); padding: 100px 0 50px;width:100%; background-size: cover;background-position: center center; background-repeat: no-repeat; height: 100vh; position: relative; z-index: 1;'">
       <b-container fluid class="position-relative h-100">
         <div class="slider-inner h-100">
             <b-row class="align-items-center  h-100 iq-ltr-direction">
@@ -12,7 +12,7 @@
                     </div>
                   </a>
                   <h1 class="slider-text big-title title text-uppercase" data-animation-in="fadeInLeft"
-                    data-delay-in="0.6">{{data.title}}</h1>
+                    data-delay-in="0.6">{{playlist.title}}</h1>
                   <div class="d-flex align-items-center" data-animation-in="fadeInUp" data-delay-in="1">
                      <div class="slider-ratting d-flex align-items-center mr-4 mt-2 mt-md-3">
                               <ul class="ratting-start p-0 m-0 list-inline text-primary d-flex align-items-center justify-content-left">
@@ -35,7 +35,7 @@
                                 <span class="text-white ml-2">4.7(lmdb)</span>
                                 </div>
                     <span class="badge badge-secondary p-2 mt-2 mt-md-3">{{data.age}}+</span>
-                    <span class="ml-3 mt-2 mt-md-3">{{data.sesson}}</span>
+                    <span class="ml-3 mt-2 mt-md-3">{{playlist.sesson}}</span>
                   </div>
                   <p data-animation-in="fadeInUp" data-delay-in="1.2">{{data.text}}</p>
                     <div class="trending-list" data-wp_object-in="fadeInUp" data-delay-in="1.2">
@@ -89,7 +89,7 @@ export default {
   },
   
   props: [
-	'playlists'
+	'playlistObject'
   ],
   data: () => ({
 	playlist: [],
@@ -120,7 +120,8 @@ export default {
   },
   created() {
 	
-	console.log('playlist in home: ',this.playlist)
+	console.log('playlist in home: ');
+	console.log(this.PlaylistObject);
   },
   methods: {
 	

@@ -1,13 +1,32 @@
 <template>
 
 	<div>
-		<Home id="home" v-if="this.$route.meta.slider === 'true' && ( this.playlists.length > 0)"  :playlist="homePlaylist"/>
+
+
+
+		<!--
+
+
+			maybe make a single 
+		-->
+		<Home id="home" v-if="this.$route.meta.slider === 'true'"  :playlistObject="homePlaylist"/>
 		
-			<component 
-				v-for="(playlist, index) in playlistsArray" 
+			<!-- <component 
+				v-for="(single, index) in this.playlistsObject" 
 				:key="index"
 				:is="templateOption" 
-				:playlist="playlist" />
+				:playlistObject="single"/> -->
+
+			<Favorite 
+				v-for="(single, index) in playlistsObject" 
+				:playlistObject="single"
+			/>
+
+				<!-- 
+
+						try just sending a <Favorite> component
+
+				-->
 				
 		</div>
 		
@@ -24,7 +43,7 @@
 <script>
 import { core } from '../../config/pluginInit'
 const Home = () => import('@/views/FrontendPages/Components/Home/Home');
-const Favorites = () => import('./Components/Favorites/Favorite');
+const  Favorite = () => import('./Components/Favorites/Favorite');
 const Foo = () => import('./Components/Suggested/Suggestion');
 const Bar = () => import('./Components/TopTen/Top');
 
@@ -43,11 +62,10 @@ export default {
 	props: [
 		// "playlist",
 		
-		"viewtest"
 	],
 	components: {
 		Home,
-		Favorites,
+		Favorite,
 		Foo,
 		Bar
 		/*
@@ -113,7 +131,7 @@ export default {
 		playlists: [],
 		playlistsArray: [],
 		playlistsObject: {},
-		homePlaylist: [],
+		homePlaylist: {},
 		playlist: null,
 		subComponent: 'Favorites',
 		foo: null,
@@ -151,10 +169,10 @@ export default {
 					
 				});
 
-				console.log('MainPage playlists', this.playlists);
+				// console.log('MainPage playlists', this.playlists);
 				this.populatePlaylists();
 				
-				this.homePlaylist = this.playlistsArray[0]
+				
 			} catch (e) {
 				console.log('getPlaylists error: ', e);
 			}
@@ -232,8 +250,10 @@ export default {
 			
 			const outerEnd = window.performance.now();
 			console.log(`Outer Execution time: ${outerEnd - outerStart} ms`);
-			
+			this.homePlaylist = this.playlistsObject[0]
 			console.log( 'this.playlistsObject: ', this.playlistsObject);
+			console.log('this.homePlaylist', this.homePlaylist)
+			return;
 		},
 
 		async populateSinglePlaylist(playlist){
